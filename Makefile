@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+         #
+#    By: rodro <rodro@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 13:04:33 by rofuente          #+#    #+#              #
-#    Updated: 2024/05/29 16:10:18 by rofuente         ###   ########.fr        #
+#    Updated: 2024/05/29 16:51:13 by rodro            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,10 @@ LIB	=	ar rcs
 RM	=	rm -f
 
 CC	=	gcc
-CFLAGS	=	-Wall -Wextra -Werror -I ./include -I ./libft/include/ -I ./mlx
-MiniLibX	=	./mlx2/libmlx_Linux.a
-MLX_FLAGS	=	-lXext -lX11 -lm -D LINUX
+CFLAGS	=	-Wall -Wextra -Werror -I ./include -I ./libft/include/ -I ./mlx2
+#MiniLibX	=	./mlx2/libmlx_Linux.a
+MLX_casa	=	./mlx2/libmlx_Darwin.a
+MLX_FLAGS	=	-lXext -lX11 -lm -L/usr/X11R6/lib
 DEBUG	=	-g3 -fsanitize=address
 
 NAME	=	cub3D
@@ -61,7 +62,7 @@ $(OBJ_DIR)%.o:$(SRC_DIR)%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ) $(LIBFT) $(MLX)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MiniLibX) $(MLX_FLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX_casa) $(MLX_FLAGS) -o $(NAME)
 	@echo "\n$(G)Basic library compiled!$(DEF_COLOR)-> $@\n"
 
 clean:
