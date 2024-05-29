@@ -6,7 +6,7 @@
 #    By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 13:04:33 by rofuente          #+#    #+#              #
-#    Updated: 2024/05/28 14:03:30 by rofuente         ###   ########.fr        #
+#    Updated: 2024/05/29 16:10:18 by rofuente         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ RM	=	rm -f
 
 CC	=	gcc
 CFLAGS	=	-Wall -Wextra -Werror -I ./include -I ./libft/include/ -I ./mlx
-#MLX	=	./mlx/libmlx.a
-#MLX_FLAGS	=	-lmlx -framework OpenGL -framework AppKit
+MiniLibX	=	./mlx2/libmlx_Linux.a
+MLX_FLAGS	=	-lXext -lX11 -lm -D LINUX
 DEBUG	=	-g3 -fsanitize=address
 
 NAME	=	cub3D
@@ -32,7 +32,7 @@ OBJ	=	$(addprefix $(OBJ_DIR), $(OBJ_FILES))
 LIBFT_PATH = libft/
 LIBFT = $(LIBFT_PATH)libft.a
 
-MLX_PATH = mlx/
+MLX_PATH = mlx2/
 MLX = $(MLX_PATH)libmlx_Linux.a
 
 ##########COLORES##########
@@ -58,16 +58,16 @@ $(MLX) : $(MLX_PATH)
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
-	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(OBJ) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX_FLAGS) -o $(NAME)
+$(NAME): $(OBJ) $(LIBFT) $(MLX)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MiniLibX) $(MLX_FLAGS) -o $(NAME)
 	@echo "\n$(G)Basic library compiled!$(DEF_COLOR)-> $@\n"
 
 clean:
 	@$(RM) $(OBJ)
-	@make clean -sC libft
-	@make clean -sC mlx
+	@make clean -sC $(LIBFT_PATH)
+	@make clean -sC $(MLX_PATH)
 	@rm -rf $(OBJ_DIR)
 	@echo "$(R)All .o files removed$(DEF_COLOR)\n"
 
