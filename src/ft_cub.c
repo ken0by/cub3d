@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:31 by rofuente          #+#    #+#             */
-/*   Updated: 2024/05/28 13:57:58 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:57:46 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	ft_check_pname(char *pro, char *name)
 			i++;
 		else
 		{
-			ft_printf("Program name is not 'cub3D'\n");
+			ft_printf("Program name is not './cub3D'\n");
 			exit(1);
 		}
 	}
@@ -50,7 +50,7 @@ static void	ft_check_pname(char *pro, char *name)
 
 static void	ft_cub(char **argv)
 {
-	ft_check_pname(argv[0], "cub3D");
+	ft_check_pname(argv[0], "./cub3D");
 	ft_check_extension(argv[1], ".cub");
 }
 
@@ -65,5 +65,6 @@ int	main(int argc, char **argv)
 	{
 		ft_cub(argv);
 	}
+	ft_printf("Nice\n");
 	return (0);
 }
