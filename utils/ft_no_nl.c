@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_no_nl.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rodro <rodro@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 16:49:47 by rofuente          #+#    #+#             */
-/*   Updated: 2023/05/18 18:50:18 by rodro            ###   ########.fr       */
+/*   Updated: 2024/06/04 16:32:03 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/so_long.h"
+#include "../include/cub.h"
 
 char	*ft_strdup_no_nl(char *s)
 {

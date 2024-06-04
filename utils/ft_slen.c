@@ -6,11 +6,11 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 16:49:55 by rofuente          #+#    #+#             */
-/*   Updated: 2023/05/10 16:49:57 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:32:11 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/so_long.h"
+#include "../include/cub.h"
 
 int	ft_slen(char *s)
 {
