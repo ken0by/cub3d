@@ -6,7 +6,7 @@
 #    By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 13:04:33 by rofuente          #+#    #+#              #
-#    Updated: 2024/06/04 16:33:55 by rofuente         ###   ########.fr        #
+#    Updated: 2024/06/05 17:05:37 by rofuente         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ UTIL_PATH = ./utils
 OBJ_DIR = obj
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra 
 MINILIBX = -lXext -lX11 -lm -D LINUX
 LIBFT = ./libft/libft.a
 MLX = ./mlx/libmlx_Linux.a

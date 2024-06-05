@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:18 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/04 16:35:30 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:25:56 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@
 # define KEY_A			0
 # define KEY_S			1
 # define KEY_D			2
-# define ARROW_UP		126
-# define ARROW_DOWN		125
 # define ARROW_LEFT		123
 # define ARROW_RIGHT	124
 
@@ -41,11 +39,27 @@
 # define XPM_PATH	"./xpm/"
 
 /* ---------- STRUCTS ---------- */
+typedef struct s_rgb{
+	int	r;
+	int	g;
+	int	b;
+}	t_rgb;
+
 typedef struct s_map{
 	int		height;
 	int		width;
-	char	*line;
 	char	**cpy;
+	char	**map;
+	char	*nroute;
+	char	*sroute;
+	char	*eroute;
+	char	*wroute;
+	void	*north;
+	void	*south;
+	void	*east;
+	void	*west;
+	t_rgb	floor;
+	t_rgb	ceiling;
 }	t_map;
 
 typedef struct s_game
@@ -58,9 +72,16 @@ typedef struct s_game
 }	t_game;
 
 /* ---------- FUNCIONES ---------- */
+
+/* ----- SRC ----- */
+/* FT_READ_MAP.C */
 void	ft_read_map(t_game *game, char *file);
+
+/* FT_CUB.C */
 void	ft_error(char *s);
 
+/* ----- UTILS ----- */
+/* FT_NO_NL.C*/
 char	*ft_strjoin_no_nl(char *s1, char *s2);
 char	*ft_strdup_no_nl(char *s);
 

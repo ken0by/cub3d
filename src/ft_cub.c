@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:31 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/04 16:18:12 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:03:39 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	main(int argc, char **argv)
 		mlx_hook(game.win, DESTROY, 0, red_cross, &game);
 		// mlx_key_hook(game.win, ft_key, &game);
 		// mlx_loop_hook(game.mlx, &ft_loop, &game);
-		mlx_loop(game.mlx);
+		//mlx_loop(game.mlx);
 	}
 	ft_printf("Nice\n");
 	return (0);
