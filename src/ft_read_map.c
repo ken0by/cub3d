@@ -6,17 +6,17 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 15:50:41 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/05 17:28:45 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:19:56 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
 /* COPIA SOLO EL MAPA */
-static char	**ft_cpy_map(char **map, int i)
+/* static char	**ft_cpy_map(char **map, int i)
 {
 
-}
+} */
 
 static void	ft_rgb_floor(t_game *game, char *map)
 {
@@ -171,7 +171,7 @@ static void	ft_route_save(t_game *game)
 		i = k + 1;
 	while (game->map.cpy[i][0] == '\n')
 		i++;
-	game->map.map = ft_cpy_map(game->map.cpy, i);
+	// game->map.map = ft_cpy_map(game->map.cpy, i);
 	// DESPUES DE ESTO HAY Q BORRAR LA COPIA ORIGINAL
 	printf("n-> %s\n", game->map.nroute);
 	printf("s-> %s\n", game->map.sroute);
