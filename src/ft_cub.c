@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:31 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/05 16:03:39 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:53:19 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static void	ft_strat(t_game *game, char *map)
 	game->win = mlx_new_window(game->mlx, game->map.height * 110, game->map.width * 110, "Cub3D");
 	if (!game->win)
 		ft_error("Failure to load window\n");
+	all_xpm(game);
 }
 
 static void	ft_cub(char **argv)
@@ -96,7 +97,7 @@ int	main(int argc, char **argv)
 		mlx_hook(game.win, DESTROY, 0, red_cross, &game);
 		// mlx_key_hook(game.win, ft_key, &game);
 		// mlx_loop_hook(game.mlx, &ft_loop, &game);
-		//mlx_loop(game.mlx);
+		mlx_loop(game.mlx);
 	}
 	ft_printf("Nice\n");
 	return (0);

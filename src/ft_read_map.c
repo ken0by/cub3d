@@ -6,17 +6,49 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 15:50:41 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/12 13:19:56 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:43:02 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
 /* COPIA SOLO EL MAPA */
-/* static char	**ft_cpy_map(char **map, int i)
+static char	**ft_cpy_map(char **map, int x)
 {
+	char	**new;
+	int		i;
+	int		j;
+	int		k;
 
-} */
+	i = x;
+	j = 0;
+	while (map[i])
+	{
+		j++;
+		i++;
+	}
+	new = malloc(sizeof(char *) * (j + 1));
+	i = x;
+	j = 0;
+	while (map[i])
+	{
+		k = 0;
+		while (map[i][k])
+			k++;
+		new[j] = malloc(sizeof(char) * (k + 1));
+		k = 0;
+		while (map[i][k])
+		{
+			new[j][k] = map[i][k];
+			k++;
+		}
+		new[j][k] = '\0';
+		j++;
+		i++;
+	}
+	new[j] = NULL;
+	return (new);
+}
 
 static void	ft_rgb_floor(t_game *game, char *map)
 {
@@ -171,7 +203,7 @@ static void	ft_route_save(t_game *game)
 		i = k + 1;
 	while (game->map.cpy[i][0] == '\n')
 		i++;
-	// game->map.map = ft_cpy_map(game->map.cpy, i);
+	game->map.map = ft_cpy_map(game->map.cpy, i);
 	// DESPUES DE ESTO HAY Q BORRAR LA COPIA ORIGINAL
 	printf("n-> %s\n", game->map.nroute);
 	printf("s-> %s\n", game->map.sroute);
@@ -179,6 +211,31 @@ static void	ft_route_save(t_game *game)
 	printf("w-> %s\n", game->map.wroute);
 	printf("floor-> r: %d, g: %d, b: %d\n", game->map.floor.r, game->map.floor.g, game->map.floor.b);
 	printf("ceiling-> r: %d, g: %d, b: %d\n", game->map.ceiling.r, game->map.ceiling.g, game->map.ceiling.b);
+	printf("MAPA:\n");
+	i = -1;
+	while (game->map.map[++i])
+		printf("%s", game->map.map[i]);
+}
+
+static int	ft_take_width(char **map)
+{
+	int	i;
+	int	j;
+	int	k;
+
+	i = 0;
+	k = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+			j++;
+		if (j > k)
+			k = j;
+		i++;
+	}
+	return (k);
+
 }
 
 void	ft_read_map(t_game *game, char *file)
@@ -223,9 +280,12 @@ void	ft_read_map(t_game *game, char *file)
 	}
 	game->map.cpy[j] = '\0';
 	ft_route_save(game);
-	i = -1;
-	while(game->map.cpy[++i])
-			printf("%s", game->map.cpy[i]);
+	i = 0;
+	while (game->map.map[i])
+		i++;
+	game->map.height = i;
+	game->map.width = ft_take_width(game->map.map);
+	ft_check_map(game);
 	i = -1;
 	while(game->map.cpy[++i])
 		free(game->map.cpy[i]);

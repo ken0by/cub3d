@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:18 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/05 16:25:56 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:42:25 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,26 @@ typedef struct s_game
 /* ---------- FUNCIONES ---------- */
 
 /* ----- SRC ----- */
+/* FT_CUB.C */
+void	ft_error(char *s);
+
 /* FT_READ_MAP.C */
 void	ft_read_map(t_game *game, char *file);
 
-/* FT_CUB.C */
-void	ft_error(char *s);
+/* FT_CHECK_MAP.C */
+void	ft_check_map(t_game *game);
+
+/* FT_START_XPM.C */
+void	all_xpm(t_game *game);
+void	print_img(t_game *game, void *img, int i, int j);
 
 /* ----- UTILS ----- */
 /* FT_NO_NL.C*/
 char	*ft_strjoin_no_nl(char *s1, char *s2);
 char	*ft_strdup_no_nl(char *s);
+
+/* FT_SLEN.C */
+int		ft_slen(char *s);
 
 /* ---------- COLOR FONT ---------- */
 # define RED     "\x1b[31m"
