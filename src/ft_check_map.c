@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:09:11 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/17 14:44:24 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:09:07 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ static void	ft_check_diferent(char **map)
 	while (map[++i])
 	{
 		j = -1;
-		while (map[i][++j] != '\n')
+		while (map[i][++j])
 		{
 			if (map[i][j] != ' ' && map[i][j] != '0' && map[i][j] != '1'
 				&& map[i][j] != 'N' && map[i][j] != 'S'
-				&& map[i][j] != 'E' && map[i][j] != 'W')
+				&& map[i][j] != 'E' && map[i][j] != 'W' && map[i][j] != '\n')
 			{
 				printf("ERROR-> \"%c\"\n", map[i][j]);
 				ft_error("Found unrecognized element\n");
@@ -74,7 +74,7 @@ static void	ft_check_diferent(char **map)
 	}
 }
 
-static void	ft_check_walls(char **map, t_game *game)
+static void	ft_check_walls(char **map)
 {
 	int	i;
 	int	j;
@@ -85,13 +85,13 @@ static void	ft_check_walls(char **map, t_game *game)
 		j = -1;
 		while (map[i][++j])
 		{
-			if (i < game->map.width && map[i][j] != '1')
+			if (i < ft_slen(map[i]) && (map[i][j] != '1' && map[i][j] != ' '))
 				ft_error("Map isn't surrounded of walls\n");
-			else if ((i % game->map.width == 0 || i % game->map.width
-					== game->map.width - 1) && map[i][j] != '1')
-				ft_error("Map isn't surrounded of walls\n");
-			else if (i > (ft_slen(map[i]) - game->map.width) && map[i][j] != '1')
-				ft_error("Map isn't surrounded of walls\n");
+			else if ((i % ft_slen(map[i]) == 0 || i % ft_slen(map[i])
+					== ft_slen(map[i]) - 1) && (map[i][j] != '1' && map[i][j] != ' '))
+				ft_error("bMap isn't surrounded of walls\n");
+			else if (i > (ft_slen(map[i]) - ft_slen(map[i])) && (map[i][j] != '1' && map[i][j] != ' '))
+				ft_error("cMap isn't surrounded of walls\n");
 		}
 	}
 }
@@ -100,6 +100,6 @@ void	ft_check_map(t_game *game)
 {
 	ft_check_elements(game->map.map, 0, 0, 0);
 	ft_check_diferent(game->map.map);
-	ft_check_walls(game->map.map, game);
+	ft_check_walls(game->map.map);
 	//check_path(game);
 }

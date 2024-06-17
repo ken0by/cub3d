@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:18 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/17 14:42:25 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:17:36 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,18 @@
 # include <unistd.h>
 
 /* ---------- TECLAS ---------- */
-# define KEY_ESC		53
-# define KEY_W			13
-# define KEY_A			0
-# define KEY_S			1
-# define KEY_D			2
-# define ARROW_LEFT		123
-# define ARROW_RIGHT	124
+# define KEY_ESC		65307
+# define KEY_W			119
+# define KEY_A			97
+# define KEY_S			115
+# define KEY_D			100
 
-# define DESTROY 17
-# define XPM_PATH	"./xpm/"
+# define KEY_UP			126
+# define ARROW_LEFT		65361
+# define ARROW_RIGHT	65363
+
+# define DESTROY		17
+# define XPM_PATH		"./xpm/"
 
 /* ---------- STRUCTS ---------- */
 typedef struct s_rgb{

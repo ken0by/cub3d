@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:31 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/17 13:53:19 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:13:22 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	ft_strat(t_game *game, char *map)
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		ft_error("Failed to open MLX\n");
-	game->win = mlx_new_window(game->mlx, game->map.height * 110, game->map.width * 110, "Cub3D");
+	game->win = mlx_new_window(game->mlx, 1920, 1080, "Cub3D");
 	if (!game->win)
 		ft_error("Failure to load window\n");
 	all_xpm(game);
