@@ -6,7 +6,7 @@
 #    By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 13:04:33 by rofuente          #+#    #+#              #
-#    Updated: 2024/06/17 14:12:22 by rofuente         ###   ########.fr        #
+#    Updated: 2024/06/18 16:13:59 by rofuente         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ UTIL_PATH = ./utils
 OBJ_DIR = obj
 
 CC = gcc
+DEBUG = -g3 -fsanitize=address
 CFLAGS = -Wall -Werror -Wextra
 MINILIBX = -lXext -lX11 -lm -D LINUX
 LIBFT = ./libft/libft.a

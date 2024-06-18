@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:31 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/17 16:13:22 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:49:41 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,14 @@ static void	ft_strat(t_game *game, char *map)
 		ft_error("Failed to open MLX\n");
 	game->win = mlx_new_window(game->mlx, 1920, 1080, "Cub3D");
 	if (!game->win)
-		ft_error("Failure to load window\n");
+		ft_error("Failed to load window\n");
+	game->img = mlx_new_image(game->mlx, 1920, 1080);
+	if (!game->img)
+		ft_error("Failed launch_window image\n");
+	game->address = (int *)mlx_get_data_addr(game->img, &game->bitpp, \
+			&game->line_len, &game->endian);
+	if (!game->address)
+		ft_error("Failed address image\n");
 	all_xpm(game);
 }
 

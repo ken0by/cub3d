@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:09:11 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/17 16:09:07 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:06:25 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,22 +78,70 @@ static void	ft_check_walls(char **map)
 {
 	int	i;
 	int	j;
+	int	k;
 
+	i = 0;
+	while (map[0][i] == ' ')
+		i++;
+	while (map[0][i])
+	{
+		if (map[0][i] == '\n' || map[0][i] == '\0')
+			break;
+		if (map[0][i] == ' ')
+		{
+			k = 1;
+			while (map[0 + k][i] != '1')
+			{
+				if (map[0 + k][i - 1] != '1' || map[0 + k][i + 1] != '1')
+					ft_error("Map isn't surrounded of walls\n");
+				k++;
+			}
+			if (map[0 + k][i - 1] != '1' || map[0 + k][i + 1] != '1')
+				ft_error("Map isn't surrounded of walls\n");
+		} else if (map[0][i] != '1')
+			ft_error("Map isn't surrounded of walls\n");
+		i++;
+	}
+	j = 0;
+	while (map[++j])
+	{
+		if (map[j][0] == ' ')
+		{
+			k = 0;
+			while (map[j][k] == ' ')
+				k++;
+			if (map[j][k] != '1')
+				ft_error("Map isn't surrounded of walls\n");
+		} else if (map[j][0] != '1')
+			ft_error("Map isn't surrounded of walls\n");
+		if (map[j][ft_strlen(map[j]) - 2] != '1' && map[j][ft_strlen(map[j]) - 2] != ' ')
+			ft_error("Map isn't surrounded of walls\n");
+	}
+	i = -1;
+	j--;
+	while (map[j][++i])
+	{
+		if (map[j][i] == '\n' || map[j][i] == '\0')
+			break ;
+		if (map[j][i] == ' ')
+		{
+			k = 1;
+			while (map[j - k][i] != '1')
+			{
+				if (map[j - k][i - 1] != '1' || map[j - k][i + 1] != '1')
+					ft_error("Map isn't surrounded of walls\n");
+				k++;
+			}
+			if (map[j - k][i - 1] != '1' || map[j - k][i + 1] != '1')
+				ft_error("Map isn't surrounded of walls\n");
+		}
+		else if (map[j][i] != '1')
+			ft_error("Map isn't surrounded of walls\n");
+	}
 	i = -1;
 	while (map[++i])
-	{
-		j = -1;
-		while (map[i][++j])
-		{
-			if (i < ft_slen(map[i]) && (map[i][j] != '1' && map[i][j] != ' '))
-				ft_error("Map isn't surrounded of walls\n");
-			else if ((i % ft_slen(map[i]) == 0 || i % ft_slen(map[i])
-					== ft_slen(map[i]) - 1) && (map[i][j] != '1' && map[i][j] != ' '))
-				ft_error("bMap isn't surrounded of walls\n");
-			else if (i > (ft_slen(map[i]) - ft_slen(map[i])) && (map[i][j] != '1' && map[i][j] != ' '))
-				ft_error("cMap isn't surrounded of walls\n");
-		}
-	}
+		printf("%s", map[i]);
+	printf("\n");
 }
 
 void	ft_check_map(t_game *game)
@@ -101,5 +149,4 @@ void	ft_check_map(t_game *game)
 	ft_check_elements(game->map.map, 0, 0, 0);
 	ft_check_diferent(game->map.map);
 	ft_check_walls(game->map.map);
-	//check_path(game);
 }

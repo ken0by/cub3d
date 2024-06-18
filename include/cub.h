@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:18 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/17 16:17:36 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:44:00 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,23 @@ typedef struct s_rgb{
 	int	b;
 }	t_rgb;
 
+typedef struct s_vector
+{
+	double	x;
+	double	y;
+}	t_vector;
+
+typedef struct s_img
+{
+	void	*ptr;
+	int		*data;
+	int		bits;
+	int		len;
+	int		endian;
+	int		h;
+	int		w;
+}	t_img;
+
 typedef struct s_map{
 	int		height;
 	int		width;
@@ -68,9 +85,21 @@ typedef struct s_game
 {
 	int		img_height;
 	int		img_width;
+	int		bitpp;
+	int		line_len;
+	int		endian;
+	int		f_color;
+	int		c_color;
 	void	*mlx;
 	void	*win;
+	void	*img;
+	void	*address;
 	t_map	map;
+	t_img	img_data;
+	t_img	n_img;
+	t_img	s_img;
+	t_img	e_img;
+	t_img	w_img;
 }	t_game;
 
 /* ---------- FUNCIONES ---------- */
