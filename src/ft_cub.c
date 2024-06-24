@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:31 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/18 16:49:41 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/24 18:03:25 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,18 @@ static void	ft_strat(t_game *game, char *map)
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		ft_error("Failed to open MLX\n");
-	game->win = mlx_new_window(game->mlx, 1920, 1080, "Cub3D");
+	game->win = mlx_new_window(game->mlx, WIN_HEIGHT, WIN_WIDTH, "Cub3D");
 	if (!game->win)
 		ft_error("Failed to load window\n");
-	game->img = mlx_new_image(game->mlx, 1920, 1080);
+	/* game->img = mlx_new_image(game->mlx, WIN_HEIGHT, WIN_WIDTH);
 	if (!game->img)
-		ft_error("Failed launch_window image\n");
-	game->address = (int *)mlx_get_data_addr(game->img, &game->bitpp, \
+		ft_error("Failed launch_window image\n"); */
+	/* game->address = (int *)mlx_get_data_addr(game->img, &game->bitpp, \
 			&game->line_len, &game->endian);
 	if (!game->address)
-		ft_error("Failed address image\n");
+		ft_error("Failed address image\n"); */
 	all_xpm(game);
+	ft_player(game);
 }
 
 static void	ft_cub(char **argv)
@@ -106,6 +107,5 @@ int	main(int argc, char **argv)
 		// mlx_loop_hook(game.mlx, &ft_loop, &game);
 		mlx_loop(game.mlx);
 	}
-	ft_printf("Nice\n");
 	return (0);
 }

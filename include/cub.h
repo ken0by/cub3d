@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:18 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/18 16:44:00 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:59:55 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>
+# include <math.h>
 
 /* ---------- TECLAS ---------- */
 # define KEY_ESC		65307
@@ -40,6 +41,9 @@
 # define DESTROY		17
 # define XPM_PATH		"./xpm/"
 
+# define WIN_WIDTH 1080
+# define WIN_HEIGHT 1920
+
 /* ---------- STRUCTS ---------- */
 typedef struct s_rgb{
 	int	r;
@@ -47,15 +51,10 @@ typedef struct s_rgb{
 	int	b;
 }	t_rgb;
 
-typedef struct s_vector
-{
-	double	x;
-	double	y;
-}	t_vector;
-
 typedef struct s_img
 {
 	void	*ptr;
+	char	*img_data;
 	int		*data;
 	int		bits;
 	int		len;
@@ -81,25 +80,55 @@ typedef struct s_map{
 	t_rgb	ceiling;
 }	t_map;
 
+typedef struct s_player{
+	double	x;
+	double	y;
+	double	dirX;
+	double	dirY;
+	double	planeX;
+	double	planeY;
+	double	cameraX;
+	double	rayDirX;
+	double	rayDirY;
+	double	sideDistX;
+	double	sideDistY;
+	double	perpWallDist;
+	double	deltaDistX;
+	double	deltaDistY;
+	int		mapX;
+	int		mapY;
+	int		stepX;
+	int		stepY;
+	int		hit;
+	int		side;
+	int		lineHeight;
+	int		drawStart;
+	int		drawEnd;
+	int		color;
+	char	flag;
+}	t_player;
+
 typedef struct s_game
 {
-	int		img_height;
-	int		img_width;
-	int		bitpp;
-	int		line_len;
-	int		endian;
-	int		f_color;
-	int		c_color;
-	void	*mlx;
-	void	*win;
-	void	*img;
-	void	*address;
-	t_map	map;
-	t_img	img_data;
-	t_img	n_img;
-	t_img	s_img;
-	t_img	e_img;
-	t_img	w_img;
+	int			img_height;
+	int			img_width;
+	int			bitpp;
+	int			line_len;
+	int			endian;
+	int			f_color;
+	int			c_color;
+	char		*data;
+	void		*mlx;
+	void		*win;
+	void		*img;
+	void		*address;
+	t_map		map;
+	t_img		img_data;
+	t_img		n_img;
+	t_img		s_img;
+	t_img		e_img;
+	t_img		w_img;
+	t_player	player;
 }	t_game;
 
 /* ---------- FUNCIONES ---------- */
@@ -117,6 +146,15 @@ void	ft_check_map(t_game *game);
 /* FT_START_XPM.C */
 void	all_xpm(t_game *game);
 void	print_img(t_game *game, void *img, int i, int j);
+
+/* FT_PLAYER.C */
+void	ft_player(t_game *game);
+
+/* FT_INIT_PLAYER.C */
+void	ft_dir_n(t_game *game);
+void	ft_dir_s(t_game *game);
+void	ft_dir_e(t_game *game);
+void	ft_dir_w(t_game *game);
 
 /* ----- UTILS ----- */
 /* FT_NO_NL.C*/

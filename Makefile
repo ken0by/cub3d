@@ -6,7 +6,7 @@
 #    By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 13:04:33 by rofuente          #+#    #+#              #
-#    Updated: 2024/06/18 16:13:59 by rofuente         ###   ########.fr        #
+#    Updated: 2024/06/24 18:03:50 by rofuente         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ MLX = ./mlx/libmlx_Linux.a
 
 LIB = ./include/cub3d.h
 
-SRC = ft_cub.c ft_read_map.c ft_check_map.c ft_start_xpm.c
+SRC = ft_cub.c ft_read_map.c ft_check_map.c ft_start_xpm.c ft_player.c ft_init_player.c
 UTIL = ft_no_nl.c ft_slen.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o) $(UTIL:%.c=%.o))
@@ -58,7 +58,7 @@ make_mlx:
 	@make -C ./mlx
 
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -I $(LIB) $(LIBFT) $(MLX) $(MINILIBX) -o $(NAME)
+	@$(CC) $(DEBUG) $(CFLAGS) $(OBJ) -I $(LIB) $(LIBFT) $(MLX) $(MINILIBX) -o $(NAME)
 	@clear
 	@echo "\n$(G)Cub3D compiled!$(DEF_COLOR)-> $@\n"
 
