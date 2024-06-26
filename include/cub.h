@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:18 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/24 17:59:55 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/26 21:37:27 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,19 @@
 # include <math.h>
 
 /* ---------- TECLAS ---------- */
-# define KEY_ESC		65307
-# define KEY_W			119
-# define KEY_A			97
-# define KEY_S			115
-# define KEY_D			100
-
-# define KEY_UP			126
-# define ARROW_LEFT		65361
-# define ARROW_RIGHT	65363
+#define KEY_ESC		65307
+#define KEY_W		119
+#define KEY_A		97
+#define KEY_S		115
+#define KEY_D		00
+#define ARROW_LEFT	65361
+#define ARROW_RIGHT	65363
 
 # define DESTROY		17
 # define XPM_PATH		"./xpm/"
 
-# define WIN_WIDTH 1080
-# define WIN_HEIGHT 1920
+# define WIN_WIDTH 850
+# define WIN_HEIGHT 1350
 
 /* ---------- STRUCTS ---------- */
 typedef struct s_rgb{
@@ -53,14 +51,13 @@ typedef struct s_rgb{
 
 typedef struct s_img
 {
-	void	*ptr;
-	char	*img_data;
-	int		*data;
-	int		bits;
-	int		len;
-	int		endian;
-	int		h;
-	int		w;
+	void	*img;
+    int		*data;
+    int		width;
+    int		height;
+    int		bpp;
+    int		size_line;
+    int		endian;
 }	t_img;
 
 typedef struct s_map{
@@ -117,12 +114,16 @@ typedef struct s_game
 	int			endian;
 	int			f_color;
 	int			c_color;
+	int			*ads;
 	char		*data;
 	void		*mlx;
 	void		*win;
 	void		*img;
 	void		*address;
 	t_map		map;
+	t_img		floor;
+	t_img		ceiling;
+	t_img		color;
 	t_img		img_data;
 	t_img		n_img;
 	t_img		s_img;
@@ -155,6 +156,9 @@ void	ft_dir_n(t_game *game);
 void	ft_dir_s(t_game *game);
 void	ft_dir_e(t_game *game);
 void	ft_dir_w(t_game *game);
+
+/* FT_KEY.C */
+int		ft_key(int key, t_game *game);
 
 /* ----- UTILS ----- */
 /* FT_NO_NL.C*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cub.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:31 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/24 18:03:25 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/06/26 21:10:36 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,12 @@ static void	ft_strat(t_game *game, char *map)
 	game->win = mlx_new_window(game->mlx, WIN_HEIGHT, WIN_WIDTH, "Cub3D");
 	if (!game->win)
 		ft_error("Failed to load window\n");
-	/* game->img = mlx_new_image(game->mlx, WIN_HEIGHT, WIN_WIDTH);
+	game->img = mlx_new_image(game->mlx,WIN_HEIGHT, WIN_HEIGHT);
 	if (!game->img)
-		ft_error("Failed launch_window image\n"); */
-	/* game->address = (int *)mlx_get_data_addr(game->img, &game->bitpp, \
-			&game->line_len, &game->endian);
-	if (!game->address)
-		ft_error("Failed address image\n"); */
+		ft_error("Failed to launch image\n");
+	game->ads = (int *)mlx_get_data_addr(game->mlx, &game->bitpp, &game->line_len, &game->endian);
+	if (!game->ads)
+		ft_error("Failed to load addres image\n");
 	all_xpm(game);
 	ft_player(game);
 }
@@ -93,19 +92,17 @@ int	main(int argc, char **argv)
 {
 	t_game game;
 
-	if (argc < 2)
-	{
-		ft_printf("Error requieres map.cub\n");
-		return (1);
-	}
 	if (argc == 2)
 	{
 		ft_cub(argv);
 		ft_strat(&game, argv[1]);
 		mlx_hook(game.win, DESTROY, 0, red_cross, &game);
-		// mlx_key_hook(game.win, ft_key, &game);
+		mlx_hook(game.win, 17, (1L << 0), &red_cross, &game);
+		mlx_hook(game.win, 2, (1L << 0), &ft_key, &game);
 		// mlx_loop_hook(game.mlx, &ft_loop, &game);
 		mlx_loop(game.mlx);
 	}
+	else
+		ft_error("Please run: ./cub3D [map].cub");
 	return (0);
 }

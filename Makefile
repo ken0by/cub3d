@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+         #
+#    By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 13:04:33 by rofuente          #+#    #+#              #
-#    Updated: 2024/06/24 18:03:50 by rofuente         ###   ########.fr        #
+#    Updated: 2024/06/26 20:22:55 by ken0by           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ MLX = ./mlx/libmlx_Linux.a
 
 LIB = ./include/cub3d.h
 
-SRC = ft_cub.c ft_read_map.c ft_check_map.c ft_start_xpm.c ft_player.c ft_init_player.c
+SRC = ft_cub.c ft_read_map.c ft_check_map.c ft_start_xpm.c ft_player.c ft_init_player.c ft_key.c
 UTIL = ft_no_nl.c ft_slen.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o) $(UTIL:%.c=%.o))
