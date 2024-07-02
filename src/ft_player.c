@@ -6,7 +6,7 @@
 /*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:09:35 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/26 21:30:55 by ken0by           ###   ########.fr       */
+/*   Updated: 2024/07/02 12:47:18 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,13 @@ static void ft_line(t_player *player, t_game *game, int x, int y)
 		d = y * 256 - WIN_HEIGHT * 128 + player->lineHeight * 128;
 		texY = ((d * game->color.height) / player->lineHeight) / 256;
 		color = game->color.data[texY * game->color.size_line / 4 + texX];
-		(void) x;
 		(void) color;
+		(void) x;
 		//mlx_pixel_put(game->mlx, game->win, x, y, color);
 	}
 }
 
-static void ft_print_fc(t_game *game, int color, int y)
+/* static void ft_print_fc(t_game *game, int color, int y)
 {
 	int x;
 
@@ -116,14 +116,16 @@ static void ft_print_fc(t_game *game, int color, int y)
 		while (++x < WIN_HEIGHT)
 			mlx_pixel_put(game->mlx, game->win, x, y, color);
 	}
-}
+} */
 
 void render_scene(t_player *player, t_game *game)
 {
 	int x;
 
-	ft_print_fc(game, game->c_color, -1);
-	ft_print_fc(game, game->f_color, (WIN_WIDTH / 1.25));
+	mlx_put_image_to_window(game->mlx, game->win, game->ceiling.img, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->win, game->floor.img, 0, (WIN_WIDTH / 1.25));
+	/* ft_print_fc(game, game->c_color, -1);
+	ft_print_fc(game, game->f_color, (WIN_WIDTH / 1.25)); */
 	x = -1;
 	while (++x < WIN_WIDTH)
 	{
@@ -140,7 +142,9 @@ void render_scene(t_player *player, t_game *game)
 			player->drawEnd = WIN_HEIGHT - 1;
 		ft_line(player, game, x, 0);
 	}
-	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
+	/* Para imprimir las paredes ahora ns que como hacerlo, a lo mejor abria que imprimir
+	todo a la vez para a ver si asi funciona. */
+	//mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 }
 
 static void ft_dir(t_game *game, char c)
