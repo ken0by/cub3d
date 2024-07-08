@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:18 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/26 21:37:27 by ken0by           ###   ########.fr       */
+/*   Updated: 2024/07/08 11:54:46 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ typedef struct s_player{
 
 typedef struct s_game
 {
+	int			x;
+	int			y;
 	int			img_height;
 	int			img_width;
 	int			bitpp;
