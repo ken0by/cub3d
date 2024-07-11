@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_key.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:09:22 by ken0by            #+#    #+#             */
-/*   Updated: 2024/06/26 20:21:53 by ken0by           ###   ########.fr       */
+/*   Updated: 2024/07/11 13:06:06 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,10 +145,7 @@ static void	press_a(t_game *game)
 int	ft_key(int key, t_game *game)
 {
 	if (key == KEY_ESC)
-	{
-		//ft_close(game);
 		exit(EXIT_SUCCESS);
-	}
 	if (key == ARROW_RIGHT)
 		press_r(game);
 	if (key == ARROW_LEFT)

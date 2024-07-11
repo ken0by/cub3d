@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:18 by rofuente          #+#    #+#             */
-/*   Updated: 2024/07/08 11:54:46 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:38:44 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ typedef struct s_rgb{
 typedef struct s_img
 {
 	void	*img;
-    int		*data;
-    int		width;
-    int		height;
-    int		bpp;
-    int		size_line;
-    int		endian;
+	char	*addr;
+	int		width;
+	int		height;
+	int		bpp;
+	int		size_line;
+	int		endian;
 }	t_img;
 
 typedef struct s_map{
@@ -107,8 +107,6 @@ typedef struct s_player{
 
 typedef struct s_game
 {
-	int			x;
-	int			y;
 	int			img_height;
 	int			img_width;
 	int			bitpp;
@@ -120,9 +118,9 @@ typedef struct s_game
 	char		*data;
 	void		*mlx;
 	void		*win;
-	void		*img;
 	void		*address;
 	t_map		map;
+	t_img		img;
 	t_img		floor;
 	t_img		ceiling;
 	t_img		color;
@@ -151,7 +149,7 @@ void	all_xpm(t_game *game);
 void	print_img(t_game *game, void *img, int i, int j);
 
 /* FT_PLAYER.C */
-void	ft_player(t_game *game);
+int		ft_player(void *param);
 
 /* FT_INIT_PLAYER.C */
 void	ft_dir_n(t_game *game);

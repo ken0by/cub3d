@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:09:11 by rofuente          #+#    #+#             */
-/*   Updated: 2024/06/18 16:06:25 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:36:35 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,10 +138,6 @@ static void	ft_check_walls(char **map)
 		else if (map[j][i] != '1')
 			ft_error("Map isn't surrounded of walls\n");
 	}
-	i = -1;
-	while (map[++i])
-		printf("%s", map[i]);
-	printf("\n");
 }
 
 void	ft_check_map(t_game *game)

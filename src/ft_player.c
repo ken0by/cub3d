@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:09:35 by rofuente          #+#    #+#             */
-/*   Updated: 2024/07/08 11:55:06 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:43:27 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,17 @@ static void ft_algorithm(t_player *player, t_game *game)
 	ft_hit(player, game);
 }
 
-static void ft_line(t_player *player, t_game *game, int x, int y)
+static void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x < 0 || y < 0)
+		return ;
+	dst = data->addr + (y * data->size_line + x * (data->bpp / 8));
+	*(unsigned int *)dst = color;
+}
+
+static void ft_line(t_player *player, t_game *game, int x, int y, t_img *img)
 {
 	double	wallX;
 	int		texX;
@@ -94,23 +104,34 @@ static void ft_line(t_player *player, t_game *game, int x, int y)
 		texX = game->color.width - texX - 1;
 	if (player->side == 1 && player->rayDirY < 0)
 		texX = game->color.width - texX - 1;
-	y = player->drawStart;
+	y = player->drawStart - 1;
 	while (++y < player->drawEnd)
 	{
 		d = y * 256 - WIN_HEIGHT * 128 + player->lineHeight * 128;
 		texY = ((d * game->color.height) / player->lineHeight) / 256;
-		color = game->color.data[texY * game->color.size_line / 4 + texX];
-		game->x = x;
-		game->y = y;
+		color = game->color.addr[texY * game->color.size_line / 4 + texX];
+		my_mlx_pixel_put(img, x, y, color);
 	}
 }
 
-void render_scene(t_player *player, t_game *game)
+static void ft_print_fc(t_img *img, int color, int y)
 {
 	int x;
 
-	mlx_put_image_to_window(game->mlx, game->win, game->ceiling.img, 0, 0);
-	mlx_put_image_to_window(game->mlx, game->win, game->floor.img, 0, (WIN_WIDTH / 1.25));
+	while (++y < WIN_WIDTH)
+	{
+		x = -1;
+		while (++x < WIN_HEIGHT)
+			my_mlx_pixel_put(img, x, y, color);
+	}
+}
+
+void render_scene(t_player *player, t_game *game, t_img *img)
+{
+	int x;
+
+	ft_print_fc(img, game->c_color, -1);
+	ft_print_fc(img, game->f_color, (WIN_WIDTH / 2.0) - 1);
 	x = -1;
 	while (++x < WIN_WIDTH)
 	{
@@ -125,11 +146,8 @@ void render_scene(t_player *player, t_game *game)
 		player->drawEnd = (int)(player->lineHeight / 2.0) + (WIN_HEIGHT / 2.0);
 		if (player->drawEnd >= WIN_HEIGHT)
 			player->drawEnd = WIN_HEIGHT - 1;
-		ft_line(player, game, x, 0);
+		ft_line(player, game, x, 0, img);
 	}
-	/* Para imprimir las paredes ahora ns que como hacerlo, a lo mejor abria que imprimir
-	todo a la vez para a ver si asi funciona. */
-	mlx_put_image_to_window(game->mlx, game->win, game->img, game->x, game->y);
 }
 
 static void ft_dir(t_game *game, char c)
@@ -155,19 +173,33 @@ static void ft_pos(t_game *game)
 		x = -1;
 		while (game->map.map[y][++x])
 		{
-			if (game->map.map[y][x] == 'N' || game->map.map[y][x] == 'S' || game->map.map[y][x] == 'E' || game->map.map[y][x] == 'W')
+			if (game->map.map[y][x] == 'N' || game->map.map[y][x] == 'S'
+				|| game->map.map[y][x] == 'E' || game->map.map[y][x] == 'W')
 			{
 				game->player.x = x;
 				game->player.y = y;
 				ft_dir(game, game->map.map[y][x]);
-				return;
+				return ;
 			}
 		}
 	}
 }
 
-void ft_player(t_game *game)
+int	ft_player(void *param)
 {
+	t_game	*game;
+	t_img	img;
+
+	game = (t_game *)param;
+	// printf("%p\n", img.img);
+	img.img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
+	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.size_line, &img.endian);
 	ft_pos(game);
-	render_scene(&game->player, game);
+	render_scene(&game->player, game, &img);
+	mlx_put_image_to_window(game->mlx, game->win, img.img, 0, 0);
+	mlx_destroy_image(game->mlx, img.img);
+	/* // Hay q ver si hay error al imprimir el mapa, si hay un error hay q devolver 1
+	if (COMPROBCION ERROR)
+		return (1); */
+	return (0);
 }
