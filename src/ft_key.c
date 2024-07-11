@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:09:22 by ken0by            #+#    #+#             */
-/*   Updated: 2024/07/11 13:06:06 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:07:35 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ static void	press_a(t_game *game)
 				|| game->map.map[x][y] == 'E' || game->map.map[x][y] == 'W') && (game->map.map[x][y - 1] != '1'))
 			{
 				game->map.map[x][y] = '0';
-				game->map.map[x][y - 1] = 'W';
+				game->map.map[x][y - 1] = 'E';
 				return ;
 			}
 		}

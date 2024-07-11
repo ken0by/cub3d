@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:31 by rofuente          #+#    #+#             */
-/*   Updated: 2024/07/11 13:43:09 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/11 15:45:56 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static void	ft_check_pname(char *pro, char *name)
 
 static int	red_cross(t_game *game)
 {
+	printf("%p\n", game);
 	mlx_destroy_window(game->mlx, game->win);
 	exit (0);
 }
@@ -75,7 +76,7 @@ static void	ft_strat(t_game *game, char *map)
 	all_xpm(game);
 	mlx_hook(game->win, 2, (1L << 0), &ft_key, &game);
 	mlx_loop_hook(game->mlx, &ft_player, (void *)game);
-	mlx_hook(game->win, DESTROY, 0, red_cross, &game);
+	mlx_hook(game->win, DESTROY, 0, &red_cross, &game);
 	mlx_loop(game->mlx);
 }
 

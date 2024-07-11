@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:09:35 by rofuente          #+#    #+#             */
-/*   Updated: 2024/07/11 13:43:27 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/11 15:38:41 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static void ft_line(t_player *player, t_game *game, int x, int y, t_img *img)
 		wallX = player->y + player->perpWallDist * player->rayDirY;
 	else
 		wallX = player->x + player->perpWallDist * player->rayDirX;
-	wallX -= floor(wallX);
+	wallX -= floorf(wallX);
 	texX = (int)(wallX * (double)game->color.width);
 	if (player->side == 0 && player->rayDirX > 0)
 		texX = game->color.width - texX - 1;
@@ -131,11 +131,11 @@ void render_scene(t_player *player, t_game *game, t_img *img)
 	int x;
 
 	ft_print_fc(img, game->c_color, -1);
-	ft_print_fc(img, game->f_color, (WIN_WIDTH / 2.0) - 1);
+	ft_print_fc(img, game->f_color, (WIN_WIDTH / 1.5) - 1);
 	x = -1;
 	while (++x < WIN_WIDTH)
 	{
-		player->cameraX = 2.0 * x / (double)WIN_HEIGHT - 1;
+		player->cameraX = 2.0 * (x / (double)WIN_HEIGHT - 1);
 		player->rayDirX = player->dirX + player->planeX * player->cameraX;
 		player->rayDirY = player->dirY + player->planeY * player->cameraX;
 		ft_algorithm(player, game);
@@ -191,11 +191,11 @@ int	ft_player(void *param)
 	t_img	img;
 
 	game = (t_game *)param;
-	// printf("%p\n", img.img);
-	img.img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
+	img.img = mlx_new_image(game->mlx, WIN_HEIGHT, WIN_WIDTH);
 	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.size_line, &img.endian);
 	ft_pos(game);
 	render_scene(&game->player, game, &img);
+	// Imprime bien el suelo y cielo, pero ns xq no imprime las parades
 	mlx_put_image_to_window(game->mlx, game->win, img.img, 0, 0);
 	mlx_destroy_image(game->mlx, img.img);
 	/* // Hay q ver si hay error al imprimir el mapa, si hay un error hay q devolver 1
