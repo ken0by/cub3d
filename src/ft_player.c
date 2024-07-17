@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:09:35 by rofuente          #+#    #+#             */
-/*   Updated: 2024/07/16 16:04:51 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:13:54 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ static void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x < 0 || y < 0)
-		return ;
+	if (x < 0 || y < 0 || x >= WIN_WIDTH || y >= WIN_HEIGHT)
+		return;
 	dst = data->addr + (y * data->size_line + x * (data->bpp / 8));
 	*(unsigned int *)dst = color;
 }
@@ -98,19 +98,23 @@ static void ft_line(t_player *player, t_game *game, int x, int y, t_img *img)
 		wallX = player->y + player->perpWallDist * player->rayDirY;
 	else
 		wallX = player->x + player->perpWallDist * player->rayDirX;
-	wallX -= floorf(wallX);
+	wallX -= floor(wallX);
 	texX = (int)(wallX * (double)game->color.width);
 	if (player->side == 0 && player->rayDirX > 0)
 		texX = game->color.width - texX - 1;
 	if (player->side == 1 && player->rayDirY < 0)
 		texX = game->color.width - texX - 1;
-	y = player->drawStart - 1;
-	while (++y < player->drawEnd)
+	y = player->drawStart;
+	while (y < player->drawEnd)
 	{
 		d = y * 256 - WIN_HEIGHT * 128 + player->lineHeight * 128;
 		texY = ((d * game->color.height) / player->lineHeight) / 256;
-		color = game->color.addr[texY * game->color.size_line / 4 + texX];
-		my_mlx_pixel_put(img, x, y, color);
+		if (texX >= 0 && texX < game->color.width && texY >= 0 && texY < game->color.height)
+		{
+			color = game->color.addr[texY * game->color.size_line / 4 + texX];
+			my_mlx_pixel_put(img, x, y, color);
+		}
+		y++;
 	}
 }
 
@@ -118,11 +122,15 @@ static void ft_print_fc(t_img *img, int color, int y)
 {
 	int x;
 
-	while (++y < WIN_WIDTH)
+	while (y < WIN_HEIGHT)
 	{
-		x = -1;
-		while (++x < WIN_HEIGHT)
+		x = 0;
+		while (x < WIN_WIDTH)
+		{
 			my_mlx_pixel_put(img, x, y, color);
+			x++;
+		}
+		y++;
 	}
 }
 
@@ -130,20 +138,22 @@ void render_scene(t_player *player, t_game *game, t_img *img)
 {
 	int x;
 
-	ft_print_fc(img, game->c_color, -1);
-	ft_print_fc(img, game->f_color, (WIN_WIDTH / 1.5) - 1);
+	ft_print_fc(img, game->c_color, 0);
+	ft_print_fc(img, game->f_color, WIN_HEIGHT / 2.0);
 	x = -1;
 	while (++x < WIN_WIDTH)
 	{
-		player->cameraX = 2.0 * (x / (double)WIN_HEIGHT - 1);
+		player->cameraX = 2.0 * (x / (double)WIN_WIDTH - 1);
 		player->rayDirX = player->dirX + player->planeX * player->cameraX;
 		player->rayDirY = player->dirY + player->planeY * player->cameraX;
 		ft_algorithm(player, game);
 		player->lineHeight = (int)(WIN_HEIGHT / player->perpWallDist);
-		player->drawStart = (int)(-player->lineHeight / 2.0) + (WIN_HEIGHT / 2.0);
+		if (player->lineHeight == 0)
+			player->lineHeight = 1;
+		player->drawStart = -player->lineHeight / 2.0 - WIN_HEIGHT / 2.0;
 		if (player->drawStart < 0)
 			player->drawStart = 0;
-		player->drawEnd = (int)(player->lineHeight / 2.0) + (WIN_HEIGHT / 2.0);
+		player->drawEnd = player->lineHeight / 2.0 + WIN_HEIGHT / 2.0;
 		if (player->drawEnd >= WIN_HEIGHT)
 			player->drawEnd = WIN_HEIGHT - 1;
 		ft_line(player, game, x, 0, img);
@@ -191,13 +201,13 @@ int	ft_player(void *param)
 	t_img	img;
 
 	game = (t_game *)param;
-	img.img = mlx_new_image(game->mlx, WIN_HEIGHT, WIN_WIDTH);
+	img.img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
 	img.addr = mlx_get_data_addr(img.img, &img.bpp, &img.size_line, &img.endian);
 	ft_pos(game);
 	render_scene(&game->player, game, &img);
 	// Imprime bien el suelo y cielo, pero ns xq no imprime las parades
 	mlx_put_image_to_window(game->mlx, game->win, img.img, 0, 0);
-	mlx_destroy_image(game->mlx, img.img);
+	//mlx_destroy_image(game->mlx, img.img);
 	/* // Hay q ver si hay error al imprimir el mapa, si hay un error hay q devolver 1
 	if (COMPROBCION ERROR)
 		return (1); */

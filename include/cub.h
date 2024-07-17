@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:18 by rofuente          #+#    #+#             */
-/*   Updated: 2024/07/11 13:38:44 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:11:29 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@
 # define DESTROY		17
 # define XPM_PATH		"./xpm/"
 
-# define WIN_WIDTH 850
-# define WIN_HEIGHT 1350
+# define WIN_WIDTH 1350
+# define WIN_HEIGHT 850
 
 /* ---------- STRUCTS ---------- */
 typedef struct s_rgb{

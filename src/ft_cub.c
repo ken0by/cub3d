@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:31 by rofuente          #+#    #+#             */
-/*   Updated: 2024/07/16 16:04:02 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:15:19 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ static void	ft_check_pname(char *pro, char *name)
 
 static int	red_cross(t_game *game)
 {
-	mlx_destroy_window(game->mlx, game->win);
-	// system("leaks -q cub3D");
-	exit (0);
+	// (void)game;
+	if (game->win != NULL && game->mlx != NULL)
+		mlx_destroy_window(game->mlx, game->win);
+	// free todo game
+	exit (EXIT_SUCCESS);
 }
 
 static void	ft_strat(t_game *game, char *map)
@@ -70,13 +72,13 @@ static void	ft_strat(t_game *game, char *map)
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		ft_error("Failed to open MLX\n");
-	game->win = mlx_new_window(game->mlx, WIN_HEIGHT, WIN_WIDTH, "Cub3D");
+	game->win = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
 	if (!game->win)
 		ft_error("Failed to load window\n");
 	all_xpm(game);
 	mlx_key_hook(game->win, ft_key, &game);
+	mlx_hook(game->win, 17, 0, red_cross, &game);
 	mlx_loop_hook(game->mlx, &ft_player, (void *)game);
-	mlx_hook(game->win, DESTROY, 0, red_cross, &game);
 	mlx_loop(game->mlx);
 }
 
@@ -86,16 +88,10 @@ static void	ft_cub(char **argv)
 	ft_check_extension(argv[1], ".cub");
 }
 
-void ft_leaks()
-{
-	system("leaks -q cub3D");
-}
-
 int	main(int argc, char **argv)
 {
 	t_game game;
 
-	// atexit(ft_leaks);
 	if (argc == 2)
 	{
 		ft_cub(argv);
