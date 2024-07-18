@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:18 by rofuente          #+#    #+#             */
-/*   Updated: 2024/07/17 13:11:29 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:56:51 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,16 @@
 # include <math.h>
 
 /* ---------- TECLAS ---------- */
-#define KEY_ESC		65307
-#define KEY_W		119
-#define KEY_A		97
-#define KEY_S		115
-#define KEY_D		00
-#define ARROW_LEFT	65361
-#define ARROW_RIGHT	65363
+# define KEY_ESC		65307
+# define KEY_W		119
+# define KEY_A		97
+# define KEY_S		115
+# define KEY_D		100
+# define ARROW_LEFT	65361
+# define ARROW_RIGHT	65363
+# define SPACE		65
+# define FOV 0.392699081
+# define PI 3.141592653589793238
 
 # define DESTROY		17
 # define XPM_PATH		"./xpm/"
@@ -167,6 +170,9 @@ char	*ft_strdup_no_nl(char *s);
 
 /* FT_SLEN.C */
 int		ft_slen(char *s);
+
+/* FREEZER.C */
+void	ft_free_mtx(char **mtx);
 
 /* ---------- COLOR FONT ---------- */
 # define RED     "\x1b[31m"

@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:09:35 by rofuente          #+#    #+#             */
-/*   Updated: 2024/07/17 17:13:54 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:20:18 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,15 @@ static void ft_line(t_player *player, t_game *game, int x, int y, t_img *img)
 		texY = ((d * game->color.height) / player->lineHeight) / 256;
 		if (texX >= 0 && texX < game->color.width && texY >= 0 && texY < game->color.height)
 		{
-			color = game->color.addr[texY * game->color.size_line / 4 + texX];
+			// color = game->color.addr[texY * game->color.size_line / 4 + texX];
+			color = game->f_color;
 			my_mlx_pixel_put(img, x, y, color);
 		}
 		y++;
 	}
 }
 
-static void ft_print_fc(t_img *img, int color, int y)
+/* static void ft_print_fc(t_img *img, int color, int y)
 {
 	int x;
 
@@ -132,7 +133,7 @@ static void ft_print_fc(t_img *img, int color, int y)
 		}
 		y++;
 	}
-}
+} */
 
 void render_scene(t_player *player, t_game *game, t_img *img)
 {
