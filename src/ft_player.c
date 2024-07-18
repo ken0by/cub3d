@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:09:35 by rofuente          #+#    #+#             */
-/*   Updated: 2024/07/18 16:20:18 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:03:51 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static void ft_line(t_player *player, t_game *game, int x, int y, t_img *img)
 	}
 }
 
-/* static void ft_print_fc(t_img *img, int color, int y)
+static void ft_print_fc(t_img *img, int color, int y)
 {
 	int x;
 
@@ -133,7 +133,7 @@ static void ft_line(t_player *player, t_game *game, int x, int y, t_img *img)
 		}
 		y++;
 	}
-} */
+}
 
 void render_scene(t_player *player, t_game *game, t_img *img)
 {
