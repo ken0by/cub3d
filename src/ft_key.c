@@ -6,140 +6,61 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:09:22 by ken0by            #+#    #+#             */
-/*   Updated: 2024/07/11 18:07:35 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:42:00 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-static void	press_r(t_game *game)
+t_vec	ft_rotate(t_vec v, float r)
 {
-	int	x;
-	int	y;
+	t_vec	tmp;
 
-	x = -1;
-	while (game->map.map[++x])
-	{
-		y = -1;
-		while (game->map.map[x][++y])
-		{
-			if (game->map.map[x][y] == 'N' || game->map.map[x][y] == 'S'
-				|| game->map.map[x][y] == 'E' || game->map.map[x][y] == 'W')
-			{
-				game->map.map[x][y] = 'W';
-				return ;
-			}
-		}
-	}
+	tmp.x = cosf(r) * v.x - sinf(r) * v.y;
+	tmp.y = sinf(r) * v.x + cosf(r) * v.y;
+	v.x = tmp.x;
+	v.y = tmp.y;
+	return (tmp);
 }
 
-static void	press_l(t_game *game)
+t_vec	ft_fxv(t_vec v, float f)
 {
-	int	x;
-	int	y;
+	t_vec	tmp;
 
-	x = -1;
-	while (game->map.map[++x])
-	{
-		y = -1;
-		while (game->map.map[x][++y])
-		{
-			if (game->map.map[x][y] == 'N' || game->map.map[x][y] == 'S'
-				|| game->map.map[x][y] == 'E' || game->map.map[x][y] == 'W')
-			{
-				game->map.map[x][y] = 'E';
-				return ;
-			}
-		}
-	}
+	tmp.x = v.x * f;
+	tmp.y = v.y * f;
+	return (tmp);
 }
 
-static void	press_w(t_game *game)
+t_vec	ft_add(t_vec v1, t_vec v2)
 {
-	int	x;
-	int	y;
+	t_vec	new;
 
-	x = -1;
-	while (game->map.map[++x])
-	{
-		y = -1;
-		while (game->map.map[x][++y])
-		{
-			if ((game->map.map[x][y] == 'N' || game->map.map[x][y] == 'S'
-				|| game->map.map[x][y] == 'E' || game->map.map[x][y] == 'W') && (game->map.map[x - 1][y] != '1'))
-			{
-				game->map.map[x][y] = '0';
-				game->map.map[x - 1][y] = 'N';
-				return ;
-			}
-		}
-	}
+	new.x = v1.x + v2.x;
+	new.y = v1.y + v2.y;
+	return (new);
 }
 
-static void	press_s(t_game *game)
+void	ft_movement(t_game *game, int x)
 {
-	int	x;
-	int	y;
+	t_vec	tmp;
+	char	*aux;
 
-	x = -1;
-	while (game->map.map[++x])
-	{
-		y = -1;
-		while (game->map.map[x][++y])
-		{
-			if ((game->map.map[x][y] == 'N' || game->map.map[x][y] == 'S'
-				|| game->map.map[x][y] == 'E' || game->map.map[x][y] == 'W') && (game->map.map[x + 1][y] != '1'))
-			{
-				game->map.map[x][y] = '0';
-				game->map.map[x + 1][y] = 'S';
-				return ;
-			}
-		}
-	}
-}
-
-static void	press_d(t_game *game)
-{
-	int	x;
-	int	y;
-
-	x = -1;
-	while (game->map.map[++x])
-	{
-		y = -1;
-		while (game->map.map[x][++y])
-		{
-			if ((game->map.map[x][y] == 'N' || game->map.map[x][y] == 'S'
-				|| game->map.map[x][y] == 'E' || game->map.map[x][y] == 'W') && (game->map.map[x][y + 1] != '1'))
-			{
-				game->map.map[x][y] = '0';
-				game->map.map[x][y + 1] = 'W';
-				return ;
-			}
-		}
-	}
-}
-
-static void	press_a(t_game *game)
-{
-	int	x;
-	int	y;
-
-	x = -1;
-	while (game->map.map[++x])
-	{
-		y = -1;
-		while (game->map.map[x][++y])
-		{
-			if ((game->map.map[x][y] == 'N' || game->map.map[x][y] == 'S'
-				|| game->map.map[x][y] == 'E' || game->map.map[x][y] == 'W') && (game->map.map[x][y - 1] != '1'))
-			{
-				game->map.map[x][y] = '0';
-				game->map.map[x][y - 1] = 'E';
-				return ;
-			}
-		}
-	}
+	tmp.x = game->pos.x;
+	tmp.y = game->pos.y;
+	if (x == 1 || x == 2)
+		tmp = ft_add(game->pos , ft_fxv(ft_rotate(game->direction, -PI / 2), 0.05));
+	if (x == 3)
+		tmp = ft_add(game->pos , ft_fxv(ft_rotate(game->direction, -PI), 0.05));
+	if (x == 4)
+		tmp = ft_add(game->pos, ft_fxv(game->direction, 0.05));
+	if (tmp.x < 0 || tmp.y < 0)
+		return ;
+	aux = game->map.map[(int)floorf(tmp.y)][(int)floorf(tmp.x)];
+	if (aux == '1')
+		return ;
+	game->pos = tmp;
+	print_map(game);
 }
 
 int	ft_key(int key, t_game *game)

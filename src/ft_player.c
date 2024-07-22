@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:09:35 by rofuente          #+#    #+#             */
-/*   Updated: 2024/07/18 17:03:51 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:20:42 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,8 +187,8 @@ static void ft_pos(t_game *game)
 			if (game->map.map[y][x] == 'N' || game->map.map[y][x] == 'S'
 				|| game->map.map[y][x] == 'E' || game->map.map[y][x] == 'W')
 			{
-				game->player.x = x;
-				game->player.y = y;
+				game->pos.x = x;
+				game->pos.y = y;
 				ft_dir(game, game->map.map[y][x]);
 				return ;
 			}

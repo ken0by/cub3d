@@ -6,7 +6,7 @@
 #    By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 13:04:33 by rofuente          #+#    #+#              #
-#    Updated: 2024/07/18 12:48:31 by rofuente         ###   ########.fr        #
+#    Updated: 2024/07/22 13:03:30 by rofuente         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ OBJ_DIR = obj
 
 CC = gcc
 DEBUG = -g3 -fsanitize=address
+VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
 CFLAGS = -Wall -Werror -Wextra
 MINILIBX = -lXext -lX11 -lm -D LINUX
 LIBFT = ./libft/libft.a

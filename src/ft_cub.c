@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:31 by rofuente          #+#    #+#             */
-/*   Updated: 2024/07/18 12:54:28 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:05:30 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,11 @@ static void	ft_check_pname(char *pro, char *name)
 
 static int	red_cross(t_game *game)
 {
-	// (void)game;
+	(void)game;
 	// if (game->win != NULL && game->mlx != NULL)
-	// 	mlx_destroy_window(game->mlx, game->win);
+	mlx_destroy_window(game->mlx, game->win);
 	// free todo game
 	// ft_free_mtx(game->map.map);
-	free(game->map.nroute);
-	free(game->map.sroute);
-	free(game->map.eroute);
-	free(game->map.wroute);
 	exit (EXIT_SUCCESS);
 }
 
@@ -103,6 +99,6 @@ int	main(int argc, char **argv)
 		ft_strat(&game, argv[1]);
 	}
 	else
-		ft_error("Please run: ./cub3D [map].cub");
+		ft_error("Please run: ./cub3D [map route].cub");
 	return (0);
 }

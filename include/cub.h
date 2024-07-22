@@ -6,7 +6,7 @@
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:18 by rofuente          #+#    #+#             */
-/*   Updated: 2024/07/18 16:56:51 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:28:55 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,11 @@ typedef struct s_map{
 	t_rgb	ceiling;
 }	t_map;
 
+typedef struct s_vec{
+	int	x;
+	int	y;
+}	t_vec;
+
 typedef struct s_player{
 	double	x;
 	double	y;
@@ -133,6 +138,8 @@ typedef struct s_game
 	t_img		e_img;
 	t_img		w_img;
 	t_player	player;
+	t_vec		pos;
+	t_vec		direction;
 }	t_game;
 
 /* ---------- FUNCIONES ---------- */
