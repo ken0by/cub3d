@@ -5,100 +5,73 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/28 13:07:31 by rofuente          #+#    #+#             */
-/*   Updated: 2024/07/22 13:05:30 by rofuente         ###   ########.fr       */
+/*   Created: 2024/09/09 10:13:29 by rofuente          #+#    #+#             */
+/*   Updated: 2024/09/09 13:17:18 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-void	ft_error(char *s)
+void	clean_game(t_game *game)
 {
-	ft_putstr_fd(RED "Error: " RESET, 2);
-	ft_putstr_fd(RED, 2);
-	ft_putstr_fd(s, 2);
-	ft_putstr_fd(RESET, 2);
-	exit (EXIT_FAILURE);
+	if (game->map_data.map_cpy)
+		free_array(game->map_data.map_cpy);
+	if (game->map)
+		free_array(game->map);
+	if (game->dmap)
+		free_array(game->dmap);
+	free_info(game);
 }
 
-static void	ft_check_extension(char *file, char *ext)
+void	ft_error(t_game *game, char *error)
 {
-	int	i;
-	int	j;
-
-	i = ft_strlen(file) - ft_strlen(ext);
-	j = 0;
-	while (file[i + j] && ext[j])
-	{
-		if (file[i + j] == ext[j])
-			j++;
-		else
-		{
-			ft_printf("Map file extetion is not '.cub'\n");
-			exit(1);
-		}
-	}
+	ft_printf(error);
+	clean_game(game);
+	exit(1);
 }
 
-static void	ft_check_pname(char *pro, char *name)
+static int	init_game(t_game *game)
 {
-	int	i;
-
-	i = 0;
-	while (pro[i] && name[i])
-	{
-		if (pro[i] == name[i])
-			i++;
-		else
-		{
-			ft_printf("Program name is not './cub3D'\n");
-			exit(1);
-		}
-	}
-}
-
-static int	red_cross(t_game *game)
-{
-	(void)game;
-	// if (game->win != NULL && game->mlx != NULL)
-	mlx_destroy_window(game->mlx, game->win);
-	// free todo game
-	// ft_free_mtx(game->map.map);
-	exit (EXIT_SUCCESS);
-}
-
-static void	ft_strat(t_game *game, char *map)
-{
-	ft_read_map(game, map);
+	init_cameraplane(game);
 	game->mlx = mlx_init();
 	if (!game->mlx)
-		ft_error("Failed to open MLX\n");
-	game->win = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
-	if (!game->win)
-		ft_error("Failed to load window\n");
-	all_xpm(game);
-	mlx_key_hook(game->win, ft_key, &game);
-	mlx_hook(game->win, 17, 0, red_cross, &game);
-	mlx_loop_hook(game->mlx, &ft_player, (void *)game);
+		return (0);
+	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "Cube3D");
+	if (game->win == NULL)
+		return (0);
+	init_img(game);
+	mlx_hook(game->win, 2, 1L << 0, key_event, game);
+	mlx_loop_hook(game->mlx, &render, game);
+	mlx_hook(game->win, 17, 1L << 17, close_window, game);
 	mlx_loop(game->mlx);
+	return (1);
 }
 
-static void	ft_cub(char **argv)
+static void	check_validity(t_game *game)
 {
-	ft_check_pname(argv[0], "./cub3D");
-	ft_check_extension(argv[1], ".cub");
+	duplicate_map(game);
+	floodfill(game->dmap, game->pc.pos.x, game->pc.pos.y);
+	if (!map_validity(game))
+		ft_error(game, "Error in map validation\n");
+	else if (!info_validity(game->tex))
+		ft_error(game, "Error in textures validation\n");
 }
 
 int	main(int argc, char **argv)
 {
-	t_game game;
+	t_game	game;
 
-	if (argc == 2)
+	if (argc != 2)
 	{
-		ft_cub(argv);
-		ft_strat(&game, argv[1]);
+		ft_printf("Error: one argument expected\n");
+		return (1);
 	}
-	else
-		ft_error("Please run: ./cub3D [map route].cub");
+	init_data(&game);
+	if (!parse(&game, argv))
+		ft_error(&game, "Error during parsing\n");
+	init_player(&game);
+	check_validity(&game);
+	if (!init_game(&game))
+		ft_error(&game, "Error initializing game\n");
 	return (0);
 }

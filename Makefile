@@ -6,18 +6,17 @@
 #    By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 13:04:33 by rofuente          #+#    #+#              #
-#    Updated: 2024/07/22 13:03:30 by rofuente         ###   ########.fr        #
+#    Updated: 2024/09/09 14:02:24 by rofuente         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
 SRC_PATH = ./src
-UTIL_PATH = ./utils
 OBJ_DIR = obj
 
 CC = gcc
 DEBUG = -g3 -fsanitize=address
-VALGRIND = valgrind --leak-check=full --show-leak-kinds=all
+VALGRIND = -g valgrind --leak-check=full --show-leak-kinds=all
 CFLAGS = -Wall -Werror -Wextra
 MINILIBX = -lXext -lX11 -lm -D LINUX
 LIBFT = ./libft/libft.a
@@ -25,10 +24,10 @@ MLX = ./mlx/libmlx_Linux.a
 
 LIB = ./include/cub3d.h
 
-SRC = ft_cub.c ft_read_map.c ft_check_map.c ft_start_xpm.c ft_player.c ft_init_player.c ft_key.c
-UTIL = ft_no_nl.c ft_slen.c freezer.c
+SRC =	ft_cub.c ft_initialize.c ft_parse.c ft_parse_utils.c ft_parse_utils_1.c ft_key.c ft_render.c\
+		ft_raycasting.c ft_raycasting_utils.c ft_utils.c ft_utils_1.c ft_map_checker.c ft_checker.c ft_minimap.c
 
-OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o) $(UTIL:%.c=%.o))
+OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
 
 ##########COLORES##########
 DEF_COLOR = \033[0;39m
@@ -49,8 +48,6 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)/%.o: $(SRC_PATH)/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
-$(OBJ_DIR)/%.o: $(UTIL_PATH)/%.c | $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@
 
 make_libft:
 	@make all -sC ./libft
@@ -59,7 +56,7 @@ make_mlx:
 	@make -C ./mlx
 
 $(NAME): $(OBJ)
-	@$(CC) $(DEBUG) $(CFLAGS) $(OBJ) -I $(LIB) $(LIBFT) $(MLX) $(MINILIBX) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) -I $(LIB) $(LIBFT) $(MLX) $(MINILIBX) -o $(NAME)
 	@clear
 	@echo "\n$(G)Cub3D compiled!$(DEF_COLOR)-> $@\n"
 

@@ -1,30 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_minimap.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/19 11:14:46 by rofuente          #+#    #+#             */
-/*   Updated: 2024/08/19 12:39:20 by rofuente         ###   ########.fr       */
+/*   Created: 2024/09/09 13:43:26 by rofuente          #+#    #+#             */
+/*   Updated: 2024/09/09 14:05:42 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
-
-t_vec	sub_v(t_vec v1, t_vec v2)
-{
-	t_vec	res;
-
-	res.y = v1.y - v2.y;
-	res.x = v1.x - v2.x;
-	return (res);
-}
-
-float	dot_prod(t_vec v1, t_vec v2)
-{
-	return (v1.x * v2.x + v1.y * v2.y);
-}
 
 float	dist_vec(t_vec v1, t_vec v2)
 {
@@ -45,21 +31,35 @@ float	size_vect(t_vec v)
 	return (dist_vec(v, zero));
 }
 
-t_vec	norm_vect(t_vec v1)
+t_vec	f_x_v(float f, t_vec v)
 {
-	return (ft_fxv(v1, 1 / size_vect(v1)));
+	t_vec	res;
+
+	res.x = v.x * f;
+	res.y = v.y * f;
+	return (res);
 }
 
-void	draw_line(t_game *vars, t_img *m_map, t_vec vect, t_map map)
+t_vec	norm_vect(t_vec v1)
+{
+	return (f_x_v(1 / size_vect(v1), v1));
+}
+
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+void	draw_line(t_game *game, t_img *m_map, t_vec vect, t_map map)
 {
 	float	dx;
 	float	to_x;
 	float	to_y;
 
 	dx = 0;
-	norm_vect(vars->player.face);
-	to_x = vars->player.face.x;
-	to_y = vars->player.face.y;
+	norm_vect(game->pc.dir);
+	to_x = game->pc.dir.x;
+	to_y = game->pc.dir.y;
 	while (dx < 10 && dx >= 0)
 	{
 		my_mlx_pixel_put(m_map, (vect.x * map.scale) + (dx * to_x),
@@ -126,21 +126,21 @@ void	draw_scaled_pixel(t_img *m_map, int x, int y, t_map map)
 	}
 }
 
-void	draw_player(t_game *vars, t_img *m_map, int map_width)
+void	draw_player(t_game *game, t_img *m_map, int map_width)
 {
 	t_vec	vect;
 	t_map	map_args;
 
-	map_args.scale = vars->map.height * 10 / map_width;
+	map_args.scale = game->map_height * 10 / map_width;
 	map_args.color = 0x0000FF;
-	vect.x = vars->pos.x;
-	vect.y = vars->pos.y;
-	draw_line(vars, m_map, vect, map_args);
+	vect.x = game->pc.dir.x;
+	vect.y = game->pc.dir.y;
+	draw_line(game, m_map, vect, map_args);
 	map_args.color = 0xFF0000;
 	draw_circle(m_map, vect, 5, map_args);
 }
 
-void	scale_map2(t_game *vars, t_img *m_map, float scale)
+void	scale_map2(t_game *game, t_img *m_map, float scale)
 {
 	int		y;
 	int		x;
@@ -149,29 +149,42 @@ void	scale_map2(t_game *vars, t_img *m_map, float scale)
 
 	map.scale = scale;
 	map2.scale = scale;
-	map.color = ft_rgb_color(0, 132, 128, 128);
-	map2.color = ft_rgb_color(0, 53, 48, 48);
+	map.color = create_trgb(0, 132, 128, 128);
+	map2.color = create_trgb(0, 53, 48, 48);
 	y = -1;
-	while (++y < vars->map.width)
+	while (++y < game->map_width)
 	{
 		x = -1;
-		while (++x < vars->map.height)
+		while (++x < game->map_height)
 		{
-			if (vars->map.map[y][x] != '0' && vars->map.map[y][x] != '1')
+			if (game->map[y][x] != '0' && game->map[y][x] != '1')
 				draw_scaled_pixel(m_map, x, y, map);
-			if (vars->map.map[y][x] == '0')
+			if (game->map[y][x] == '0')
 				draw_scaled_pixel(m_map, x, y, map);
-			else if (vars->map.map[y][x] == '1')
+			else if (game->map[y][x] == '1')
 				draw_scaled_pixel(m_map, x, y, map2);
 		}
 	}
 }
 
-void	scale_map(t_game *vars, t_img *m_map, int map_width)
+void	scale_map(t_game *game, t_img *m_map, int map_width)
 {
 	float	scale;
 
-	scale = vars->map.height * 10 / map_width;
-	scale_map2(vars, m_map, scale);
-	draw_player(vars, m_map, map_width);
+	scale = game->map_height * 10 / map_width;
+	scale_map2(game, m_map, scale);
+	draw_player(game, m_map, map_width);
+}
+
+int	put_minimap(t_game *game)
+{
+	t_img	m_map;
+
+	m_map.img = mlx_new_image(game->mlx, game->map_height * 10,
+			game->map_width * 10);
+	m_map.ptr = mlx_get_data_addr(m_map.img, &m_map.bpp,
+			&m_map.size_line, &m_map.endian);
+	scale_map(game, &m_map, game->map_height);
+	mlx_put_image_to_window(game->mlx, game->win, m_map.img, 0, 0);
+	return (1);
 }

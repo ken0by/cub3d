@@ -5,79 +5,95 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/26 20:09:22 by ken0by            #+#    #+#             */
-/*   Updated: 2024/07/22 13:42:00 by rofuente         ###   ########.fr       */
+/*   Created: 2024/09/09 10:44:45 by rofuente          #+#    #+#             */
+/*   Updated: 2024/09/09 14:00:44 by rofuente         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-t_vec	ft_rotate(t_vec v, float r)
+static void	rotate(t_game *game, double speed)
 {
-	t_vec	tmp;
+	double	aux_dir;
+	double	aux_plane;
 
-	tmp.x = cosf(r) * v.x - sinf(r) * v.y;
-	tmp.y = sinf(r) * v.x + cosf(r) * v.y;
-	v.x = tmp.x;
-	v.y = tmp.y;
-	return (tmp);
+	aux_dir = game->pc.dir.x;
+	aux_plane = game->pc.plane.x;
+	game->pc.dir.x = game->pc.dir.x * cos(speed) - game->pc.dir.y * sin(speed);
+	game->pc.dir.y = aux_dir * sin(speed) + game->pc.dir.y * cos(speed);
+	game->pc.plane.x = game->pc.plane.x * cos(speed)
+		- game->pc.plane.y * sin(speed);
+	game->pc.plane.y = aux_plane * sin(speed)
+		+ game->pc.plane.y * cos(speed);
 }
 
-t_vec	ft_fxv(t_vec v, float f)
+void	mouse_move(t_game *game)
 {
-	t_vec	tmp;
+	int	x;
+	int	y;
+	int	res;
 
-	tmp.x = v.x * f;
-	tmp.y = v.y * f;
-	return (tmp);
+	(void)res;
+	x = 0;
+	y = 0;
+	mlx_mouse_hide(game->mlx, game->win);
+	res = mlx_mouse_get_pos(game->mlx, game->win, &x, &y);
+	if (x - game->mouse_pos.x > 50 || game->mouse_pos.x - x > 50)
+	{
+		if (x - game->mouse_pos.x > 50)
+		{
+			rotate(game, ROTATION);
+			put_minimap(game);
+		}
+		else
+		{
+			rotate(game, -ROTATION);
+			put_minimap(game);
+		}
+		res = mlx_mouse_move(game->mlx, game->win, 950, 600);
+		game->mouse_pos.x = 950;
+	}
 }
 
-t_vec	ft_add(t_vec v1, t_vec v2)
+static void	move(t_game *game, double x, double y, char sign)
 {
-	t_vec	new;
-
-	new.x = v1.x + v2.x;
-	new.y = v1.y + v2.y;
-	return (new);
+	if (sign == '+')
+	{
+		if (game->dmap[(int)game->pc.pos.y][(int)(game->pc.pos.x + x)] != '1')
+			game->pc.pos.x += x;
+		if (game->dmap[(int)(game->pc.pos.y + y)][(int)game->pc.pos.x] != '1')
+			game->pc.pos.y += y;
+	}
+	else if (sign == '-')
+	{
+		if (game->dmap[(int)game->pc.pos.y][(int)(game->pc.pos.x - x)] != '1')
+			game->pc.pos.x -= x;
+		if (game->dmap[(int)(game->pc.pos.y - y)][(int)game->pc.pos.x] != '1')
+			game->pc.pos.y -= y;
+	}
 }
 
-void	ft_movement(t_game *game, int x)
-{
-	t_vec	tmp;
-	char	*aux;
-
-	tmp.x = game->pos.x;
-	tmp.y = game->pos.y;
-	if (x == 1 || x == 2)
-		tmp = ft_add(game->pos , ft_fxv(ft_rotate(game->direction, -PI / 2), 0.05));
-	if (x == 3)
-		tmp = ft_add(game->pos , ft_fxv(ft_rotate(game->direction, -PI), 0.05));
-	if (x == 4)
-		tmp = ft_add(game->pos, ft_fxv(game->direction, 0.05));
-	if (tmp.x < 0 || tmp.y < 0)
-		return ;
-	aux = game->map.map[(int)floorf(tmp.y)][(int)floorf(tmp.x)];
-	if (aux == '1')
-		return ;
-	game->pos = tmp;
-	print_map(game);
-}
-
-int	ft_key(int key, t_game *game)
+int	key_event(int key, t_game *game)
 {
 	if (key == KEY_ESC)
-		exit(EXIT_SUCCESS);
-	if (key == ARROW_RIGHT)
-		press_r(game);
-	if (key == ARROW_LEFT)
-		press_l(game);
-	if (key == KEY_W)
-		press_w(game);
-	if (key == KEY_S)
-		press_s(game);
-	if (key == KEY_D)
-		press_d(game);
-	if (key == KEY_A)
-		press_a(game);
+		close_window(game);
+	else if (key == KEY_W)
+		move(game, game->pc.dir.x * SPEED, game->pc.dir.y * SPEED, '+');
+	else if (key == KEY_S)
+		move(game, game->pc.dir.x * SPEED, game->pc.dir.y * SPEED, '-');
+	else if (key == KEY_A)
+		move(game, game->pc.plane.x * SPEED, game->pc.plane.y * SPEED, '-');
+	else if (key == KEY_D)
+		move(game, game->pc.plane.x * SPEED, game->pc.plane.y * SPEED, '+');
+	else if ((key == ARROW_LEFT
+			&& (game->pc.point == 'N' || game->pc.point == 'S'))
+		|| (key == ARROW_RIGHT && (game->pc.point == 'E'
+				|| game->pc.point == 'W')))
+		rotate(game, -ROTATION);
+	else if ((key == ARROW_LEFT
+			&& (game->pc.point == 'E' || game->pc.point == 'W'))
+		|| (key == ARROW_RIGHT && (game->pc.point == 'N'
+				|| game->pc.point == 'S')))
+		rotate(game, ROTATION);
 	return (0);
 }
