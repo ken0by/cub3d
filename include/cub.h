@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:18 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/09 13:58:49 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:31:52 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@
 # define PI 3.14159264
 # define DESTROY		17
 # define XPM_PATH		"./xpm/"
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 1280
+# define HEIGHT 720
 # define TEXTURE_WIDTH 32
 # define TEXTURE_HEIGHT 32
 # define SPEED			0.09
@@ -129,6 +129,7 @@ typedef struct s_game
 {
 	int			map_height;
 	int			map_width;
+	float		scale;
 	void		*mlx;
 	void		*win;
 	char		**map;
@@ -137,6 +138,7 @@ typedef struct s_game
 	t_texture	tex;
 	t_player	pc;
 	t_img		img[5];
+	t_img		m_map;
 	t_ray		ray;
 	t_vec		mouse_pos;
 }	t_game;

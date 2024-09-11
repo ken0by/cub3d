@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minimap.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:43:26 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/09 14:05:42 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:54:51 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
+
+void	put_pixel2(t_game *game, int x, int y, int color)
+{
+	char	*pixel;
+
+	if (y < 0 || y > (game->map_height * 10) || x < 0
+		|| x > (game->map_width * 10))
+		return ;
+	pixel = (game->m_map.ptr + (y * game->m_map.size_line
+				+ x * (game->m_map.bpp / 8)));
+	*(int *)pixel = color;
+}
+
+float dot_prod(t_vec v1, t_vec v2) {
+    return v1.x * v2.x + v1.y * v2.y;
+}
+
+
+t_vec	sub_v(t_vec v1, t_vec v2)
+{
+	t_vec	res;
+
+	res.y = v1.y - v2.y;
+	res.x = v1.x - v2.x;
+	return (res);
+}
 
 float	dist_vec(t_vec v1, t_vec v2)
 {
@@ -50,7 +76,7 @@ int	create_trgb(int t, int r, int g, int b)
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
-void	draw_line(t_game *game, t_img *m_map, t_vec vect, t_map map)
+void	draw_line(t_game *game, t_vec vect, t_map map)
 {
 	float	dx;
 	float	to_x;
@@ -62,25 +88,25 @@ void	draw_line(t_game *game, t_img *m_map, t_vec vect, t_map map)
 	to_y = game->pc.dir.y;
 	while (dx < 10 && dx >= 0)
 	{
-		my_mlx_pixel_put(m_map, (vect.x * map.scale) + (dx * to_x),
+		put_pixel2(game, (vect.x * map.scale) + (dx * to_x),
 			(vect.y * map.scale) + (dx * to_y), map.color);
 		dx += 0.25;
 	}
 }
 
-void	draw_circle_util(t_img *m_map, t_vec cntr, t_vec pos, t_map map)
+void	draw_circle_util(t_game *game, t_vec cntr, t_vec pos, t_map map)
 {
-	my_mlx_pixel_put(m_map, cntr.x + pos.x, cntr.y + pos.y, map.color);
-	my_mlx_pixel_put(m_map, cntr.x + pos.y, cntr.y + pos.x, map.color);
-	my_mlx_pixel_put(m_map, cntr.x - pos.y, cntr.y + pos.x, map.color);
-	my_mlx_pixel_put(m_map, cntr.x - pos.x, cntr.y + pos.y, map.color);
-	my_mlx_pixel_put(m_map, cntr.x - pos.x, cntr.y - pos.y, map.color);
-	my_mlx_pixel_put(m_map, cntr.x - pos.y, cntr.y - pos.x, map.color);
-	my_mlx_pixel_put(m_map, cntr.x + pos.y, cntr.y - pos.x, map.color);
-	my_mlx_pixel_put(m_map, cntr.x + pos.x, cntr.y - pos.y, map.color);
+	put_pixel2(game, cntr.x + pos.x, cntr.y + pos.y, map.color);
+	put_pixel2(game, cntr.x + pos.y, cntr.y + pos.x, map.color);
+	put_pixel2(game, cntr.x - pos.y, cntr.y + pos.x, map.color);
+	put_pixel2(game, cntr.x - pos.x, cntr.y + pos.y, map.color);
+	put_pixel2(game, cntr.x - pos.x, cntr.y - pos.y, map.color);
+	put_pixel2(game, cntr.x - pos.y, cntr.y - pos.x, map.color);
+	put_pixel2(game, cntr.x + pos.y, cntr.y - pos.x, map.color);
+	put_pixel2(game, cntr.x + pos.x, cntr.y - pos.y, map.color);
 }
 
-void	draw_circle(t_img *m_map, t_vec vect, int radius, t_map map)
+void	draw_circle(t_game *game, t_vec vect, int radius, t_map map)
 {
 	t_vec	cntr;
 	t_vec	pos;
@@ -93,7 +119,7 @@ void	draw_circle(t_img *m_map, t_vec vect, int radius, t_map map)
 	radius_error = 1 - pos.x;
 	while (pos.x >= pos.y)
 	{
-		draw_circle_util(m_map, cntr, pos, map);
+		draw_circle_util(game, cntr, pos, map);
 		pos.y++;
 		if (radius_error < 0)
 		{
@@ -107,40 +133,38 @@ void	draw_circle(t_img *m_map, t_vec vect, int radius, t_map map)
 	}
 }
 
-void	draw_scaled_pixel(t_img *m_map, int x, int y, t_map map)
+void	draw_scaled_pixel(t_game *game, int x, int y, t_map map)
 {
 	int	dy;
 	int	dx;
 
-	dy = 0;
-	while (dy < map.scale)
+	dy = -1;
+	while (++dy < map.scale)
 	{
-		dx = 0;
-		while (dx < map.scale)
+		dx = -1;
+		while (++dx < map.scale)
 		{
-			my_mlx_pixel_put(m_map, x * map.scale + dx,
+			put_pixel2(game, x * map.scale + dx,
 				y * map.scale + dy, map.color);
-			dx++;
 		}
-		dy++;
 	}
 }
 
-void	draw_player(t_game *game, t_img *m_map, int map_width)
+void	draw_player(t_game *game, int map_width)
 {
 	t_vec	vect;
 	t_map	map_args;
 
 	map_args.scale = game->map_height * 10 / map_width;
 	map_args.color = 0x0000FF;
-	vect.x = game->pc.dir.x;
-	vect.y = game->pc.dir.y;
-	draw_line(game, m_map, vect, map_args);
+	vect.x = game->pc.pos.x;
+	vect.y = game->pc.pos.y;
+	draw_line(game, vect, map_args);
 	map_args.color = 0xFF0000;
-	draw_circle(m_map, vect, 5, map_args);
+	draw_circle(game, vect, 5, map_args);
 }
 
-void	scale_map2(t_game *game, t_img *m_map, float scale)
+void	scale_map2(t_game *game, float scale)
 {
 	int		y;
 	int		x;
@@ -151,40 +175,40 @@ void	scale_map2(t_game *game, t_img *m_map, float scale)
 	map2.scale = scale;
 	map.color = create_trgb(0, 132, 128, 128);
 	map2.color = create_trgb(0, 53, 48, 48);
-	y = -1;
-	while (++y < game->map_width)
+	y = 0;
+	while (y < game->map_height)
 	{
-		x = -1;
-		while (++x < game->map_height)
+		x = 0;
+		while (x < game->map_width)
 		{
 			if (game->map[y][x] != '0' && game->map[y][x] != '1')
-				draw_scaled_pixel(m_map, x, y, map);
+				draw_scaled_pixel(game, x, y, map);
 			if (game->map[y][x] == '0')
-				draw_scaled_pixel(m_map, x, y, map);
+				draw_scaled_pixel(game, x, y, map);
 			else if (game->map[y][x] == '1')
-				draw_scaled_pixel(m_map, x, y, map2);
+				draw_scaled_pixel(game, x, y, map2);
+			x++;
 		}
+		y++;
 	}
 }
 
-void	scale_map(t_game *game, t_img *m_map, int map_width)
+void	scale_map(t_game *game, int map_width)
 {
 	float	scale;
 
 	scale = game->map_height * 10 / map_width;
-	scale_map2(game, m_map, scale);
-	draw_player(game, m_map, map_width);
+	scale_map2(game, scale);
+	draw_player(game, map_width);
 }
 
 int	put_minimap(t_game *game)
 {
-	t_img	m_map;
-
-	m_map.img = mlx_new_image(game->mlx, game->map_height * 10,
-			game->map_width * 10);
-	m_map.ptr = mlx_get_data_addr(m_map.img, &m_map.bpp,
-			&m_map.size_line, &m_map.endian);
-	scale_map(game, &m_map, game->map_height);
-	mlx_put_image_to_window(game->mlx, game->win, m_map.img, 0, 0);
+	game->m_map.img = mlx_new_image(game->mlx, game->map_width * 10,
+			game->map_height * 10);
+	game->m_map.ptr = mlx_get_data_addr(game->m_map.img, &game->m_map.bpp,
+			&game->m_map.size_line, &game->m_map.endian);
+	scale_map(game, game->map_width);
+	mlx_put_image_to_window(game->mlx, game->win, game->m_map.img, 0, 0);
 	return (1);
 }
