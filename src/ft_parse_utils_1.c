@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_uitls1.c                                  :+:      :+:    :+:   */
+/*   ft_parse_utils_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:26:29 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/09 10:30:15 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/09/11 10:41:32 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,21 +105,20 @@ void	copy_textures(t_game *game, char *line, int j)
 	}
 }
 
-int	count_map_height(char **file, int i)
+int	count_map_height(char **file, int start)
 {
-	int	start;
+	int	i;
 	int	j;
 
-	start = i;
+	i = start;
 	while (file[i])
 	{
-		j = 0;
-		while (file[i][j] == ' ' || file[i][j] == '\t' || file[i][j] == '\r'
-		|| file[i][j] == '\v' || file[i][j] == '\f')
-			j++;
-		if (file[i][j] != '1')
+		if (file[i][0] != '1' && file[i][0] != '0' && file[i][0] != ' '
+		&& file[i][0] != '\t' && file[i][0] != '\r'
+		&& file[i][0] != '\v' && file[i][0] != '\f')
 			break ;
 		i++;
 	}
-	return (i - start);
+	j = i - start;
+	return (j);
 }

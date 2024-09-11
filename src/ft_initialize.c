@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_initialize.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:33:43 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/09 13:46:49 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/09/11 10:59:59 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,4 +135,5 @@ void	init_data(t_game *game)
 	}
 	game->mouse_pos.x = 0;
 	game->mouse_pos.y = 0;
+	game->scale = 0;
 }

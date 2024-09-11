@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:23:11 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/09 13:50:15 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/09/11 10:43:23 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,18 @@
 
 static int	count_map_width(char **file, int i)
 {
-	int	start;
 	int	j;
 
-	start = i;
-	while (file[i])
+	j = 0;
+	while(file[i][j])
 	{
-		j = 0;
-		while (file[i][j] == ' ' || file[i][j] == '\t' || file[i][j] == '\r'
-		|| file[i][j] == '\v' || file[i][j] == '\f')
-			j++;
-		if (file[i][j] != '1')
+		if (file[i][j] != '1' && file[i][j] != '0' && file[i][j] != ' '
+		&& file[i][j] != '\t' && file[i][j] != '\r'
+		&& file[i][j] != '\v' && file[i][j] != '\f')
 			break ;
-		i++;
+		j++;
 	}
-	return (i - start);
+	return (j);
 }
 
 void	copy_map(t_game *game, char **file, int start)

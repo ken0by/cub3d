@@ -6,7 +6,7 @@
 /*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:18 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/10 11:31:52 by ken0by           ###   ########.fr       */
+/*   Updated: 2024/09/11 11:37:51 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,17 @@ void	raycasting(t_game *game);
 void	draw_vline(t_game *game, int x);
 
 /* FT_MINIMAP.C */
-int	put_minimap(t_game *game);
+void	put_pixel2(t_game *game, int x, int y, int color);
+int		put_minimap(t_game *game);
+
+/* FT_MINIMAP_UTILS.C */
+void	draw_line(t_game *game, t_vec vect, t_map map);
+int		create_trgb(int t, int r, int g, int b);
+void	draw_circle(t_game *game, t_vec vect, int radius, t_map map);
+void	draw_scaled_pixel(t_game *game, int x, int y, t_map map);
+
+/* FT_MINIMAP_UTILS1.C */
+t_vec	norm_vect(t_vec v1);
 
 /* ---------- COLOR FONT ---------- */
 # define RED     "\x1b[31m"

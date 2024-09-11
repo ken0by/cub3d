@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+         #
+#    By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/28 13:04:33 by rofuente          #+#    #+#              #
-#    Updated: 2024/09/09 14:02:24 by rofuente         ###   ########.fr        #
+#    Updated: 2024/09/11 11:41:12 by ken0by           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ MLX = ./mlx/libmlx_Linux.a
 LIB = ./include/cub3d.h
 
 SRC =	ft_cub.c ft_initialize.c ft_parse.c ft_parse_utils.c ft_parse_utils_1.c ft_key.c ft_render.c\
-		ft_raycasting.c ft_raycasting_utils.c ft_utils.c ft_utils_1.c ft_map_checker.c ft_checker.c ft_minimap.c
+		ft_raycasting.c ft_raycasting_utils.c ft_utils.c ft_utils_1.c ft_map_checker.c ft_checker.c\
+		ft_minimap.c ft_minimap_utils.c ft_minimap_utils1.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
 
