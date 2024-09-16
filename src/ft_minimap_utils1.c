@@ -6,14 +6,14 @@
 /*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 11:20:38 by ken0by            #+#    #+#             */
-/*   Updated: 2024/09/11 11:51:47 by ken0by           ###   ########.fr       */
+/*   Updated: 2024/09/16 11:24:24 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
 static float dot_prod(t_vec v1, t_vec v2) {
-    return v1.x * v2.x + v1.y * v2.y;
+	return v1.x * v2.x + v1.y * v2.y;
 }
 
 
@@ -48,7 +48,7 @@ static t_vec	f_x_v(float f, t_vec v)
 	return (res);
 }
 
-t_vec	norm_vect(t_vec v1)
+t_vec	ft_norm_vect(t_vec v1)
 {
 	return (f_x_v(1 / size_vect(v1), v1));
 }

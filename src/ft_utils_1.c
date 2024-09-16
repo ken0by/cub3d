@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:50:07 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/09 10:50:52 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:19:35 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-void	destroy_images(t_game *game)
+void	ft_destroy(t_game *game)
 {
 	int	i;
 
@@ -28,10 +28,10 @@ void	destroy_images(t_game *game)
 	}
 }
 
-int	close_window(t_game *game)
+int	ft_close(t_game *game)
 {
-	clean_game(game);
-	destroy_images(game);
+	ft_clean_game(game);
+	ft_destroy(game);
 	if (game->win)
 		mlx_destroy_window(game->mlx, game->win);
 	if (game->mlx)
@@ -42,7 +42,7 @@ int	close_window(t_game *game)
 	exit(0);
 }
 
-int	number_to_hex(char **number)
+int	ft_nb_to_hex(char **number)
 {
 	int	hex;
 	int	r;
@@ -58,7 +58,7 @@ int	number_to_hex(char **number)
 	return (hex);
 }
 
-void	duplicate_map(t_game *game)
+void	ft_dmap(t_game *game)
 {
 	int	i;
 
@@ -73,17 +73,17 @@ void	duplicate_map(t_game *game)
 	}
 }
 
-void	floodfill(char **map_dup, int x, int y)
+void	ft_floodfill(char **map_dup, int x, int y)
 {
 	map_dup[y][x] = 'x';
 	if (y > 0 && map_dup[y - 1][x] == '0' && map_dup[y - 1][x] != 'x')
-		floodfill(map_dup, x, y - 1);
+		ft_floodfill(map_dup, x, y - 1);
 	if (map_dup[y][x + 1] != '\0'
 		&& map_dup[y][x + 1] == '0' && map_dup[y][x + 1] != 'x')
-		floodfill(map_dup, x + 1, y);
+		ft_floodfill(map_dup, x + 1, y);
 	if (map_dup[y + 1] != NULL
 		&& map_dup[y + 1][x] == '0' && map_dup[y + 1][x] != 'x')
-		floodfill(map_dup, x, y + 1);
+		ft_floodfill(map_dup, x, y + 1);
 	if (x > 0 && map_dup[y][x - 1] == '0' && map_dup[y][x - 1] != 'x')
-		floodfill(map_dup, x - 1, y);
+		ft_floodfill(map_dup, x - 1, y);
 }

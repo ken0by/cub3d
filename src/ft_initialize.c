@@ -6,13 +6,13 @@
 /*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:33:43 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/11 10:59:59 by ken0by           ###   ########.fr       */
+/*   Updated: 2024/09/12 11:31:50 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-void	init_img(t_game *game)
+void	ft_img(t_game *game)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ void	init_img(t_game *game)
 	}
 }
 
-void	init_cameraplane(t_game *game)
+void	ft_camerap(t_game *game)
 {
 	if (game->pc.point == 'N')
 	{
@@ -59,7 +59,7 @@ void	init_cameraplane(t_game *game)
 	}
 }
 
-static void	init_vecs(t_game *game, int i, int j)
+static void	ft_vecs(t_game *game, int i, int j)
 {
 	if (game->map[i][j] == 'N')
 	{
@@ -87,7 +87,7 @@ static void	init_vecs(t_game *game, int i, int j)
 	}
 }
 
-void	init_player(t_game *game)
+void	ft_player(t_game *game)
 {
 	int	i;
 	int	j;
@@ -103,7 +103,7 @@ void	init_player(t_game *game)
 	{
 		while (game->map[i][j] != '\0')
 		{
-			init_vecs(game, i, j);
+			ft_vecs(game, i, j);
 			j++;
 		}
 		i++;
@@ -111,16 +111,17 @@ void	init_player(t_game *game)
 	}
 }
 
-void	init_data(t_game *game)
+void	ft_data(t_game *game)
 {
 	int	i;
 
 	i = 0;
 	game->map_height = 0;
 	game->map_width = 0;
-	game->map_data.lines = 0;
+	game->scale = 0;
 	game->map = NULL;
 	game->dmap = NULL;
+	game->map_data.lines = 0;
 	game->tex.n = NULL;
 	game->tex.s = NULL;
 	game->tex.e = NULL;
@@ -135,5 +136,4 @@ void	init_data(t_game *game)
 	}
 	game->mouse_pos.x = 0;
 	game->mouse_pos.y = 0;
-	game->scale = 0;
 }

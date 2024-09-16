@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_map_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:54:27 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/09 10:55:01 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:31:04 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-static int	check_adjacent(char **map, int i, int j)
+static int	ft_around(char **map, int i, int j)
 {
 	if (i == 0)
 		return (0);
@@ -29,7 +29,7 @@ static int	check_adjacent(char **map, int i, int j)
 	return (1);
 }
 
-static int	check_walls(char **map)
+static int	ft_walls(char **map)
 {
 	int	i;
 	int	j;
@@ -43,7 +43,7 @@ static int	check_walls(char **map)
 		while (map[i][j])
 		{
 			if (map[i][j] == 'x')
-				ret = check_adjacent(map, i, j);
+				ret = ft_around(map, i, j);
 			if (!ret)
 				return (ret);
 			j++;
@@ -53,7 +53,7 @@ static int	check_walls(char **map)
 	return (ret);
 }
 
-static int	check_player(char **map)
+static int	ft_play(char **map)
 {
 	int	player;
 	int	i;
@@ -80,7 +80,7 @@ static int	check_player(char **map)
 	return (player);
 }
 
-static int	check_chars(char **map)
+static int	ft_content(char **map)
 {
 	int	i;
 	int	j;
@@ -103,13 +103,13 @@ static int	check_chars(char **map)
 	return (1);
 }
 
-int	map_validity(t_game *game)
+int	ft_map_check(t_game *game)
 {
-	if (!check_chars(game->map))
+	if (!ft_content(game->map))
 		return (0);
-	if (check_player(game->map) != 1)
+	if (ft_play(game->map) != 1)
 		return (0);
-	if (!check_walls(game->dmap))
+	if (!ft_walls(game->dmap))
 		return (0);
 	return (1);
 }

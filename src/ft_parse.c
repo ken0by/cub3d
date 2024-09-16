@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:16:26 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/09 10:19:29 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:27:19 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-static int	get_file_info(t_game *game, char **file)
+static int	ft_get_info(t_game *game, char **file)
 {
 	int	i;
 	int	j;
@@ -25,12 +25,12 @@ static int	get_file_info(t_game *game, char **file)
 			j++;
 		if (ft_isalpha(file[i][j]))
 		{
-			copy_info(game, file[i], j);
+			ft_info(game, file[i], j);
 			i++;
 		}
 		else if (ft_isdigit(file[i][j]))
 		{
-			copy_map(game, file, i);
+			ft_cpy_map(game, file, i);
 			return (1);
 		}
 		else
@@ -39,9 +39,9 @@ static int	get_file_info(t_game *game, char **file)
 	return (0);
 }
 
-static int	copy_file(t_game *game, char *file)
+static int	ft_cpy_file(t_game *game, char *file)
 {
-	game->map_data.lines = count_lines(file);
+	game->map_data.lines = ft_count(file);
 	if (!game->map_data.lines)
 		return (0);
 	game->map_data.map_cpy = ft_calloc(game->map_data.lines
@@ -51,12 +51,12 @@ static int	copy_file(t_game *game, char *file)
 	game->map_data.fd = open(file, O_RDONLY);
 	if (game->map_data.fd < 0)
 		return (0);
-	fill_copy(game);
+	ft_cpy(game);
 	close(game->map_data.fd);
 	return (1);
 }
 
-static int	check_extension(char *file)
+static int	ft_check_extension(char *file)
 {
 	int	fd;
 
@@ -69,12 +69,12 @@ static int	check_extension(char *file)
 	return (1);
 }
 
-int	parse(t_game *game, char **argv)
+int	ft_parse(t_game *game, char **argv)
 {
-	if (!check_extension(argv[1]))
+	if (!ft_check_extension(argv[1]))
 		return (0);
-	if (!copy_file(game, argv[1]))
+	if (!ft_cpy_file(game, argv[1]))
 		return (0);
-	get_file_info(game, game->map_data.map_cpy);
+	ft_get_info(game, game->map_data.map_cpy);
 	return (1);
 }

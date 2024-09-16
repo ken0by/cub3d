@@ -6,13 +6,13 @@
 /*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:23:11 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/11 10:43:23 by ken0by           ###   ########.fr       */
+/*   Updated: 2024/09/12 11:28:47 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-static int	count_map_width(char **file, int i)
+static int	ft_map_width(char **file, int i)
 {
 	int	j;
 
@@ -28,13 +28,13 @@ static int	count_map_width(char **file, int i)
 	return (j);
 }
 
-void	copy_map(t_game *game, char **file, int start)
+void	ft_cpy_map(t_game *game, char **file, int start)
 {
 	int	i;
 
 	i = 0;
-	game->map_width = count_map_width(file, start);
-	game->map_height = count_map_height(file, start);
+	game->map_width = ft_map_width(file, start);
+	game->map_height = ft_map_height(file, start);
 	game->map = ft_calloc(game->map_height + 1, sizeof(char *));
 	if (!game->map)
 		return ;
@@ -46,15 +46,15 @@ void	copy_map(t_game *game, char **file, int start)
 	}
 }
 
-void	copy_info(t_game *game, char *line, int j)
+void	ft_info(t_game *game, char *line, int j)
 {
 	if (line[j + 1] && ft_isalpha(line[j + 1]))
-		copy_textures(game, line, j);
+		ft_textures(game, line, j);
 	else
-		copy_colors(game, line, j);
+		ft_colors(game, line, j);
 }
 
-void	fill_copy(t_game *game)
+void	ft_cpy(t_game *game)
 {
 	int		i;
 	int		row;
@@ -82,7 +82,7 @@ void	fill_copy(t_game *game)
 	game->map_data.map_cpy[row] = NULL;
 }
 
-int	count_lines(char *file)
+int	ft_count(char *file)
 {
 	int		fd;
 	char	*line;

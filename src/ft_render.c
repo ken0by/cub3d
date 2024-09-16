@@ -6,13 +6,13 @@
 /*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:42:41 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/11 10:54:51 by ken0by           ###   ########.fr       */
+/*   Updated: 2024/09/16 11:28:51 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-void	put_pixel(t_game *game, int x, int y, int color)
+void	ft_pixel(t_game *game, int x, int y, int color)
 {
 	char	*pixel;
 
@@ -24,7 +24,7 @@ void	put_pixel(t_game *game, int x, int y, int color)
 	*(int *)pixel = color;
 }
 
-void	render_background(t_game *game)
+void	ft_background(t_game *game)
 {
 	int	x;
 	int	y;
@@ -36,22 +36,22 @@ void	render_background(t_game *game)
 		while (y < HEIGHT)
 		{
 			if (y < HEIGHT / 2)
-				put_pixel(game, x, y, number_to_hex(game->tex.c));
+				ft_pixel(game, x, y, ft_nb_to_hex(game->tex.c));
 			else
-				put_pixel(game, x, y, number_to_hex(game->tex.f));
+				ft_pixel(game, x, y, ft_nb_to_hex(game->tex.f));
 			y++;
 		}
 		++x;
 	}
 }
 
-int	render(t_game *game)
+int	ft_render(t_game *game)
 {
-	mouse_move(game);
-	render_background(game);
-	raycasting(game);
+	ft_mouse_move(game);
+	ft_background(game);
+	ft_raycasting(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img[4].img, 0, 0);
-	if (!put_minimap(game))
+	if (!ft_minimap(game))
 		return (1);
 	return (0);
 }

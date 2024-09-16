@@ -6,13 +6,13 @@
 /*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:56:29 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/10 09:41:01 by ken0by           ###   ########.fr       */
+/*   Updated: 2024/09/12 11:45:22 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-static void	dda_algorithm(t_game *game)
+static void	ft_algorithm(t_game *game)
 {
 	int	wall;
 
@@ -36,7 +36,7 @@ static void	dda_algorithm(t_game *game)
 	}
 }
 
-static void	get_step(t_game *game)
+static void	ft_step(t_game *game)
 {
 	if (game->ray.dir.x < 0)
 	{
@@ -64,7 +64,7 @@ static void	get_step(t_game *game)
 	}
 }
 
-static void	get_delta(t_game *game)
+static void	ft_delta(t_game *game)
 {
 	if (game->ray.dir.x == 0)
 		game->ray.delta_dist.x = INT_MAX;
@@ -76,7 +76,7 @@ static void	get_delta(t_game *game)
 		game->ray.delta_dist.y = fabs(1 / game->ray.dir.y);
 }
 
-static void	init_raycast(t_game *game, int x)
+static void	ft_init_ray(t_game *game, int x)
 {
 	game->ray.pos.x = game->pc.pos.x;
 	game->ray.pos.y = game->pc.pos.y;
@@ -87,24 +87,24 @@ static void	init_raycast(t_game *game, int x)
 		+ game->pc.plane.y * game->ray.cam_x;
 }
 
-void	raycasting(t_game *game)
+void	ft_raycasting(t_game *game)
 {
 	int	x;
 
 	x = 0;
 	while (x < WIDTH)
 	{
-		init_raycast(game, x);
-		get_delta(game);
-		get_step(game);
-		dda_algorithm(game);
+		ft_init_ray(game, x);
+		ft_delta(game);
+		ft_step(game);
+		ft_algorithm(game);
 		if (game->ray.side == 0)
 			game->ray.perpwalldist = ((game->ray.side_dist.x
 						- game->ray.delta_dist.x));
 		else
 			game->ray.perpwalldist = ((game->ray.side_dist.y
 						- game->ray.delta_dist.y));
-		draw_vline(game, x);
+		ft_draw(game, x);
 		x++;
 	}
 }

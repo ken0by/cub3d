@@ -6,7 +6,7 @@
 /*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:07:18 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/11 11:37:51 by ken0by           ###   ########.fr       */
+/*   Updated: 2024/09/16 11:23:14 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,76 +147,76 @@ typedef struct s_game
 
 /* ----- SRC ----- */
 /* FT_CUB.C */
-void	clean_game(t_game *game);
+void	ft_clean_game(t_game *game);
 void	ft_error(t_game *game, char *error);
 
 /* FT_PARSE.C */
-int		parse(t_game *game, char **argv);
+int		ft_parse(t_game *game, char **argv);
 
 /* FT_PARSE_UTILS.C */
-void	copy_map(t_game *game, char **file, int start);
-void	copy_info(t_game *game, char *line, int j);
-void	fill_copy(t_game *game);
-int		count_lines(char *file);
+void	ft_cpy_map(t_game *game, char **file, int start);
+void	ft_info(t_game *game, char *line, int j);
+void	ft_cpy(t_game *game);
+int		ft_count(char *file);
 
 /* FT_PARSE_UTILS_1.C */
-void	copy_colors(t_game *game, char *line, int j);
-void	copy_textures(t_game *game, char *line, int j);
-int		count_map_height(char **file, int i);
+void	ft_colors(t_game *game, char *line, int j);
+void	ft_textures(t_game *game, char *line, int j);
+int		ft_map_height(char **file, int i);
 
 /* FT_INITIALIZE.C */
-void	init_img(t_game *game);
-void	init_cameraplane(t_game *game);
-void	init_player(t_game *game);
-void	init_data(t_game *game);
+void	ft_img(t_game *game);
+void	ft_camerap(t_game *game);
+void	ft_player(t_game *game);
+void	ft_data(t_game *game);
 
 /* FT_RENDER.C */
-void	put_pixel(t_game *game, int x, int y, int color);
-void	render_background(t_game *game);
-int		render(t_game *game);
+void	ft_pixel(t_game *game, int x, int y, int color);
+void	ft_background(t_game *game);
+int		ft_render(t_game *game);
 
 /* FT_KEY.C */
-int		key_event(int key, t_game *game);
-void	mouse_move(t_game *game);
+int		ft_key(int key, t_game *game);
+void	ft_mouse_move(t_game *game);
 
 /* FT_UTILS.C */
-void	print_info(t_game *game);
-void	print_array(char **array);
-void	free_info(t_game *game);
-void	free_array(char **array);
-char	*ft_strdup_no_nl(char *str);
+void	ft_print_inf(t_game *game);
+void	ft_print_arr(char **array);
+void	ft_free_inf(t_game *game);
+void	ft_free_arr(char **array);
+char	*ft_strdup_nl(char *str);
 
 /* FT_UTILS_1.C */
-void	destroy_images(t_game *game);
-int		close_window(t_game *game);
-int		number_to_hex(char **number);
-void	duplicate_map(t_game *game);
-void	floodfill(char **map_dup, int x, int y);
+void	ft_destroy(t_game *game);
+int		ft_close(t_game *game);
+int		ft_nb_to_hex(char **number);
+void	ft_dmap(t_game *game);
+void	ft_floodfill(char **map_dup, int x, int y);
 
 /* FT_CHECKER.C */
-int		info_validity(t_texture textures);
+int		ft_check_inf(t_texture textures);
 
 /* FT_MAP_CHECKER.C */
-int		map_validity(t_game *game);
+int		ft_map_check(t_game *game);
 
 /* FT_RAYCASTING.C */
-void	raycasting(t_game *game);
+void	ft_raycasting(t_game *game);
 
 /* FT_RAYCASTING_UTILS.C */
-void	draw_vline(t_game *game, int x);
+void	ft_draw(t_game *game, int x);
 
 /* FT_MINIMAP.C */
-void	put_pixel2(t_game *game, int x, int y, int color);
-int		put_minimap(t_game *game);
+void	ft_pixel2(t_game *game, int x, int y, int color);
+int		ft_minimap(t_game *game);
 
 /* FT_MINIMAP_UTILS.C */
-void	draw_line(t_game *game, t_vec vect, t_map map);
-int		create_trgb(int t, int r, int g, int b);
-void	draw_circle(t_game *game, t_vec vect, int radius, t_map map);
-void	draw_scaled_pixel(t_game *game, int x, int y, t_map map);
+int		ft_trgb(int t, int r, int g, int b);
+void	ft_line(t_game *game, t_vec vect, t_map map);
+void	ft_circle(t_game *game, t_vec vect, int radius, t_map map);
+void	ft_scaled_pixel(t_game *game, int x, int y, t_map map);
 
 /* FT_MINIMAP_UTILS1.C */
-t_vec	norm_vect(t_vec v1);
+t_vec	ft_norm_vect(t_vec v1);
 
 /* ---------- COLOR FONT ---------- */
 # define RED     "\x1b[31m"

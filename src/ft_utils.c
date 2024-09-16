@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:48:15 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/09 10:48:49 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:29:49 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-void	print_info(t_game *game)
+void	ft_print_inf(t_game *game)
 {
 	ft_printf("\n");
 	if (game->tex.n)
@@ -26,16 +26,16 @@ void	print_info(t_game *game)
 	if (game->tex.f)
 	{
 		ft_printf("\nfloor rgb value is: \n");
-		print_array(game->tex.f);
+		ft_print_arr(game->tex.f);
 	}
 	if (game->tex.c)
 	{
 		ft_printf("ceiling rgb value is: \n");
-		print_array(game->tex.c);
+		ft_print_arr(game->tex.c);
 	}
 }
 
-void	print_array(char **array)
+void	ft_print_arr(char **array)
 {
 	int	i;
 
@@ -49,7 +49,7 @@ void	print_array(char **array)
 	ft_printf("\n");
 }
 
-void	free_info(t_game *game)
+void	ft_free_inf(t_game *game)
 {
 	if (game->tex.n)
 		free(game->tex.n);
@@ -60,12 +60,12 @@ void	free_info(t_game *game)
 	if (game->tex.w)
 		free(game->tex.w);
 	if (game->tex.f)
-		free_array(game->tex.f);
+		ft_free_arr(game->tex.f);
 	if (game->tex.c)
-		free_array(game->tex.c);
+		ft_free_arr(game->tex.c);
 }
 
-void	free_array(char **array)
+void	ft_free_arr(char **array)
 {
 	size_t	i;
 
@@ -82,7 +82,7 @@ void	free_array(char **array)
 	}
 }
 
-char	*ft_strdup_no_nl(char *str)
+char	*ft_strdup_nl(char *str)
 {
 	int		i;
 	char	*duplicate;

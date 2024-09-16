@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_checker.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:52:09 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/09 10:53:21 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:22:37 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-static int	check_rgb(char **texture)
+static int	ft_rgb(char **texture)
 {
 	int	i;
 
@@ -34,7 +34,7 @@ static int	check_rgb(char **texture)
 	return (1);
 }
 
-static int	is_xpm(char *path)
+static int	ft_xpm(char *path)
 {
 	size_t	len;
 
@@ -46,7 +46,7 @@ static int	is_xpm(char *path)
 	return (1);
 }
 
-static int	is_dir(char *path)
+static int	ft_dir(char *path)
 {
 	int	fd;
 
@@ -59,11 +59,11 @@ static int	is_dir(char *path)
 	return (0);
 }
 
-static int	check_file(char *texturepath)
+static int	ft_file(char *texturepath)
 {
 	int	fd;
 
-	if (is_dir(texturepath))
+	if (ft_dir(texturepath))
 	{
 		ft_printf("PATH IS A DIRECTORY\n");
 		return (0);
@@ -75,7 +75,7 @@ static int	check_file(char *texturepath)
 		return (0);
 	}
 	close(fd);
-	if (!is_xpm(texturepath))
+	if (!ft_xpm(texturepath))
 	{
 		ft_printf("FILE IS NOT XPM\n");
 		return (0);
@@ -83,7 +83,7 @@ static int	check_file(char *texturepath)
 	return (1);
 }
 
-int	info_validity(t_texture textures)
+int	ft_check_inf(t_texture textures)
 {
 	if (!textures.n || !textures.s || !textures.e
 		|| !textures.w || !textures.f || !textures.c)
@@ -91,12 +91,12 @@ int	info_validity(t_texture textures)
 		ft_printf("MISSING TEXTURES\n");
 		return (0);
 	}
-	if (check_file(textures.n) == 0
-		|| check_file(textures.s) == 0
-		|| check_file(textures.w) == 0
-		|| check_file(textures.e) == 0
-		|| check_rgb(textures.f) == 0
-		|| check_rgb(textures.c) == 0)
+	if (ft_file(textures.n) == 0
+		|| ft_file(textures.s) == 0
+		|| ft_file(textures.w) == 0
+		|| ft_file(textures.e) == 0
+		|| ft_rgb(textures.f) == 0
+		|| ft_rgb(textures.c) == 0)
 		return (0);
 	return (1);
 }

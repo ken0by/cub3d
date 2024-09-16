@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_key.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rofuente <rofuente@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ken0by <ken0by@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 10:44:45 by rofuente          #+#    #+#             */
-/*   Updated: 2024/09/09 14:00:44 by rofuente         ###   ########.fr       */
+/*   Updated: 2024/09/12 12:01:33 by ken0by           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-static void	rotate(t_game *game, double speed)
+static void	ft_rotate(t_game *game, double speed)
 {
 	double	aux_dir;
 	double	aux_plane;
@@ -27,7 +27,7 @@ static void	rotate(t_game *game, double speed)
 		+ game->pc.plane.y * cos(speed);
 }
 
-void	mouse_move(t_game *game)
+void	ft_mouse_move(t_game *game)
 {
 	int	x;
 	int	y;
@@ -42,20 +42,20 @@ void	mouse_move(t_game *game)
 	{
 		if (x - game->mouse_pos.x > 50)
 		{
-			rotate(game, ROTATION);
-			put_minimap(game);
+			ft_rotate(game, ROTATION);
+			ft_minimap(game);
 		}
 		else
 		{
-			rotate(game, -ROTATION);
-			put_minimap(game);
+			ft_rotate(game, -ROTATION);
+			ft_minimap(game);
 		}
 		res = mlx_mouse_move(game->mlx, game->win, 950, 600);
 		game->mouse_pos.x = 950;
 	}
 }
 
-static void	move(t_game *game, double x, double y, char sign)
+static void	ft_move(t_game *game, double x, double y, char sign)
 {
 	if (sign == '+')
 	{
@@ -73,27 +73,27 @@ static void	move(t_game *game, double x, double y, char sign)
 	}
 }
 
-int	key_event(int key, t_game *game)
+int	ft_key(int key, t_game *game)
 {
 	if (key == KEY_ESC)
-		close_window(game);
+		ft_close(game);
 	else if (key == KEY_W)
-		move(game, game->pc.dir.x * SPEED, game->pc.dir.y * SPEED, '+');
+		ft_move(game, game->pc.dir.x * SPEED, game->pc.dir.y * SPEED, '+');
 	else if (key == KEY_S)
-		move(game, game->pc.dir.x * SPEED, game->pc.dir.y * SPEED, '-');
+		ft_move(game, game->pc.dir.x * SPEED, game->pc.dir.y * SPEED, '-');
 	else if (key == KEY_A)
-		move(game, game->pc.plane.x * SPEED, game->pc.plane.y * SPEED, '-');
+		ft_move(game, game->pc.plane.x * SPEED, game->pc.plane.y * SPEED, '-');
 	else if (key == KEY_D)
-		move(game, game->pc.plane.x * SPEED, game->pc.plane.y * SPEED, '+');
+		ft_move(game, game->pc.plane.x * SPEED, game->pc.plane.y * SPEED, '+');
 	else if ((key == ARROW_LEFT
 			&& (game->pc.point == 'N' || game->pc.point == 'S'))
 		|| (key == ARROW_RIGHT && (game->pc.point == 'E'
 				|| game->pc.point == 'W')))
-		rotate(game, -ROTATION);
+		ft_rotate(game, -ROTATION);
 	else if ((key == ARROW_LEFT
 			&& (game->pc.point == 'E' || game->pc.point == 'W'))
 		|| (key == ARROW_RIGHT && (game->pc.point == 'N'
 				|| game->pc.point == 'S')))
-		rotate(game, ROTATION);
+		ft_rotate(game, ROTATION);
 	return (0);
 }
